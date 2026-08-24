@@ -1,11 +1,11 @@
 /* ════════════════════════════════════════════════════════════
    faithudall.com — the swarm, and the small machinery.
 
-   the name is not typed anywhere on the page. it's written by
+   The name is not typed anywhere on the page. It's written by
    a few hundred paper scraps, each carrying its own slice of
    the real letterforms — so when they settle, the word is
-   pixel-crisp type, not an approximation of it. moving scraps
-   warm toward their crayon; settled scraps are pure ink.
+   pixel-crisp type, not an approximation of it. Moving scraps
+   trail a whisper of their accent; settled scraps are pure ink.
    ════════════════════════════════════════════════════════════ */
 
 (() => {
@@ -30,7 +30,7 @@
     if (mode === "dark") root.dataset.theme = "dark";
     else delete root.dataset.theme;
     // once a theme is chosen explicitly, both metas agree
-    if (mode) themeMetas.forEach((m) => (m.content = mode === "dark" ? "#1a1510" : "#f7f0e3"));
+    if (mode) themeMetas.forEach((m) => (m.content = mode === "dark" ? "#211a12" : "#faf4e9"));
   }
 
   try {
@@ -41,7 +41,7 @@
   /* ── the swarm ─────────────────────────────────────────── */
 
   const swarm = (() => {
-    const WORD = "faith";
+    const WORD = "Faith";
     const canvas = document.getElementById("swarm");
     const ctx = canvas.getContext("2d");
     const slot = canvas.parentElement;
@@ -50,7 +50,7 @@
     let parts = [];
     let art = null;            // the word, rasterized once, black
     let tintInk = null;        // ink-coloured copy
-    let tintAcc = [];          // [crayon, leaf] copies
+    let tintAcc = [];          // coral / marigold / sage copies
     let intro0 = 0;            // when the current assembly began
     let running = false, visible = true, raf = 0;
     let bloom = 0, bloomTarget = 0;
@@ -59,7 +59,7 @@
 
     const mouse = { x: -9e3, y: -9e3, str: 0, on: false };
 
-    function fontFor(px) { return `italic 460 ${px}px Fraunces, Georgia, serif`; }
+    function fontFor(px) { return `700 ${px}px "Bricolage Grotesque", "Avenir Next", "Segoe UI", sans-serif`; }
 
     /* rasterize the word once at device resolution, centered by
        its real metrics — not by textBaseline's guess */
@@ -98,7 +98,7 @@
       if (!art) return;
       requestAnimationFrame(() => {   // wait for the theme vars to land
         tintInk = tint(css("--ink"));
-        tintAcc = [tint(css("--crayon")), tint(css("--leaf"))];
+        tintAcc = [tint(css("--coral")), tint(css("--marigold")), tint(css("--sage"))];
         if (REDUCED) drawStatic();
       });
     }
@@ -116,7 +116,7 @@
 
       art = buildArt();
       tintInk = tint(css("--ink"));
-      tintAcc = [tint(css("--crayon")), tint(css("--leaf"))];
+      tintAcc = [tint(css("--coral")), tint(css("--marigold")), tint(css("--sage"))];
 
       const sample = document.createElement("canvas");
       sample.width = W; sample.height = H;
@@ -124,7 +124,7 @@
       sg.drawImage(art, 0, 0, W, H);
       const data = sg.getImageData(0, 0, W, H).data;
 
-      tile = Math.max(5, Math.round(H / 26));
+      tile = Math.max(4, Math.round(H / 36));
       const targets = [];
       for (let y = 0; y < H - tile; y += tile) {
         for (let x = 0; x < W - tile; x += tile) {
@@ -136,7 +136,7 @@
         }
       }
 
-      // ~9% of scraps carry crayon, ~4% carry leaf; the rest are ink
+      // ~13% of scraps carry an accent (coral, marigold, or sage); the rest are ink
       parts = targets.map((t, i) => ({
         tx: t.x, ty: t.y,
         sx: t.x * DPR, sy: t.y * DPR,
@@ -149,9 +149,7 @@
         k: 0.02 + Math.random() * 0.04,
         damp: 0.86 + Math.random() * 0.07,
         max: (9 + Math.random() * 9) * (H / 150),
-        rot: (Math.random() - 0.5) * 1.4,
-        rv: (Math.random() - 0.5) * 0.12,
-        acc: i % 11 === 0 ? 0 : i % 23 === 0 ? 1 : -1,
+        acc: i % 23 === 0 ? 0 : i % 23 === 7 ? 1 : i % 23 === 15 ? 2 : -1,
         loose: 0,
       }));
 
@@ -182,8 +180,8 @@
       bloom += (bloomTarget - bloom) * 0.08;
 
       const lock = sstep((now - intro0 - 950) / 700); // assembly guarantee
-      const ink = hex2rgb(css("--ink") || "#34291d");
-      const accCols = [hex2rgb(css("--crayon") || "#c2542f"), hex2rgb(css("--leaf") || "#647d57")];
+      const ink = hex2rgb(css("--ink") || "#33291e");
+      const accCols = [hex2rgb(css("--coral") || "#e15a3a"), hex2rgb(css("--marigold") || "#f0a63a"), hex2rgb(css("--sage") || "#7c9d69")];
       const fleeR = tile * 7;
 
       for (const p of parts) {
@@ -207,19 +205,17 @@
         if (sp > p.max) { p.vx *= p.max / sp; p.vy *= p.max / sp; }
 
         p.x += p.vx; p.y += p.vy;
-        p.rot += p.rv;
 
         // the intro lock pulls everyone home so the word resolves
         if (lock > 0 && !p.loose) {
           p.x += (p.tx - p.x) * lock * 0.3;
           p.y += (p.ty - p.y) * lock * 0.3;
           p.vx *= 1 - lock * 0.4; p.vy *= 1 - lock * 0.4;
-          p.rot *= 1 - lock * 0.25; p.rv *= 1 - lock * 0.25;
         }
         if (p.loose && sp < 0.35) p.loose = 0;
 
         const speed = Math.hypot(p.vx, p.vy);
-        const still = speed < p.max * 0.03 && Math.abs(p.rv) < 0.01 && !p.loose &&
+        const still = speed < p.max * 0.03 && !p.loose &&
                       Math.abs(p.x - p.tx) < 0.8 && Math.abs(p.y - p.ty) < 0.8;
         const ts = tile * DPR;
 
@@ -232,21 +228,19 @@
             ctx.globalAlpha = 1;
           }
         } else {
-          ctx.save();
-          ctx.translate(p.x + tile / 2, p.y + tile / 2);
-          ctx.rotate(p.rot);
-          ctx.drawImage(tintInk, p.sx, p.sy, ts, ts, -tile / 2, -tile / 2, tile, tile);
-          ctx.restore();
+          // in flight the scraps stay axis-aligned — calmer, more
+          // deliberate than confetti
+          ctx.drawImage(tintInk, p.sx, p.sy, ts, ts, p.x, p.y, tile, tile);
 
-          // fast scraps bleed their crayon; settled scraps are ink
-          if (speed > 0.7) {
+          // fast scraps trail a whisper of their accent
+          if (speed > 0.9) {
             const t = Math.min(1, speed / p.max);
             const c = p.acc >= 0 ? accCols[p.acc] : accCols[0];
             const r = Math.round(ink[0] + (c[0] - ink[0]) * t);
             const g = Math.round(ink[1] + (c[1] - ink[1]) * t);
             const b = Math.round(ink[2] + (c[2] - ink[2]) * t);
-            ctx.strokeStyle = `rgba(${r},${g},${b},${0.5 * t + 0.15})`;
-            ctx.lineWidth = 1.6;
+            ctx.strokeStyle = `rgba(${r},${g},${b},${0.35 * t + 0.08})`;
+            ctx.lineWidth = 1.2;
             ctx.lineCap = "round";
             ctx.beginPath();
             ctx.moveTo(p.x - p.vx * 1.4 + tile / 2, p.y - p.vy * 1.4 + tile / 2);
@@ -293,7 +287,7 @@
 
     /* rasterize with the real Fraunces, not the fallback */
     if (document.fonts && document.fonts.ready) {
-      document.fonts.load(`italic 460 100px Fraunces`).then(() => settle());
+      document.fonts.load(`700 100px "Bricolage Grotesque"`).then(() => settle());
       document.fonts.ready.then(() => settle());
     }
     settle();

@@ -6,7 +6,11 @@ Live at [faithudall.com](https://faithudall.com) via GitHub Pages (the `CNAME` f
 
 ## The design
 
-*Construction paper, crayon marks, one crayon of colour.* Warm cream paper, warm near-black ink, exactly one terracotta accent (plus a sage green reserved for status dots), hairlines instead of cards, tiny tracked-out mono labels, and one living centerpiece: her name in the hero is written by a particle swarm — a few hundred paper scraps, each carrying its own slice of the real letterforms, so the settled word is pixel-crisp type. Moving scraps warm toward their crayon; settled scraps are pure ink. There's also a "naptime" dark theme (the little half-circle in the nav), remembered per visitor.
+Warm, bold, Apple-soft. The color system is 70/30/10: cream neutrals carry the page, soft tinted surfaces and imagery carry the middle weight, and a coral + marigold + sage accent family provides the pop — with one full-coral "bold moment" (the Someday band). Big soft radii, layered shadows, overshoot easing, ambient floating color orbs on desynchronized periods, inline SVG icons (never emoji), and one gradient accent word per heading.
+
+The centerpiece: her name in the hero is written by a particle swarm — a few hundred scraps, each carrying its own slice of the real letterforms, so the settled word is pixel-crisp type. Moving scraps trail a whisper of their accent; settled scraps are pure ink. There's also a "naptime" dark theme (the little half-circle in the nav) with re-picked accents, remembered per visitor.
+
+The Moments section is built for photos: swap any `tile--soon` placeholder for a `<figure class="tile"><img …></figure>` (add `tile--tall` / `tile--wide` to change its footprint).
 
 ## How it's built
 
