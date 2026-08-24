@@ -46,7 +46,7 @@
     const ctx = canvas.getContext("2d");
     const slot = canvas.parentElement;
 
-    let W = 0, H = 0, DPR = 1, tile = 8;
+    let W = 0, H = 0, DPR = 1, tile = 8, CX = 0, CY = 0;
     let parts = [];
     let art = null;            // the word, rasterized once, black
     let tintInk = null;        // ink-coloured copy
@@ -76,8 +76,10 @@
       c.height = Math.max(2, H * DPR);
       const g = c.getContext("2d");
       g.scale(DPR, DPR);
+      // the mark fills only part of its box — the rest is margin
+      // the swarm can swirl through without ever touching an edge
       if (wordOk && wordImg.complete && wordImg.naturalWidth > 0) {
-        const s = Math.min((W * 0.98) / wordImg.naturalWidth, (H * 0.98) / wordImg.naturalHeight);
+        const s = Math.min((W * 0.62) / wordImg.naturalWidth, (H * 0.62) / wordImg.naturalHeight);
         const dw = wordImg.naturalWidth * s, dh = wordImg.naturalHeight * s;
         g.drawImage(wordImg, (W - dw) / 2, (H - dh) / 2, dw, dh);
         return c;
@@ -85,7 +87,7 @@
       // fallback: set the word in type, centered by its real metrics
       g.font = fontFor(100);
       const m100 = g.measureText(WORD);
-      const size = Math.min(H * 0.9, ((W * 0.96) / m100.width) * 100);
+      const size = Math.min(H * 0.56, ((W * 0.6) / m100.width) * 100);
       g.font = fontFor(size);
       g.textAlign = "center";
       const m = g.measureText(WORD);
@@ -158,22 +160,62 @@
         }
       }
 
-      // ~13% of scraps carry an accent (coral, marigold, or sage); the rest are ink
-      parts = targets.map((t, i) => ({
-        tx: t.x, ty: t.y,
-        sx: t.x * DPR, sy: t.y * DPR,
-        // everyone arrives from below the fold, already moving up —
-        // the one direction nothing on a page ever falls in from
-        x: Math.random() * W,
-        y: H + 30 + Math.random() * H * 0.8,
-        vx: (Math.random() - 0.5) * 2,
-        vy: -(2 + Math.random() * 5),
-        k: 0.02 + Math.random() * 0.04,
-        damp: 0.86 + Math.random() * 0.07,
-        max: (9 + Math.random() * 9) * (H / 150),
-        acc: i % 23 === 0 ? 0 : i % 23 === 7 ? 1 : i % 23 === 15 ? 2 : -1,
-        loose: 0,
-      }));
+      // ~13% of scraps carry an accent (coral, marigold, or sage); the rest are ink.
+      //
+      // the assembly is a deterministic spiral, not a physics chase.
+      // every scrap is a point on a circle around the word's centre;
+      // it travels — eased in and out, zero velocity at both ends —
+      // from its scattered starting angle/radius to the exact
+      // angle/radius of its target, always turning the same way it
+      // started turning. because start and end are both plotted in
+      // polar terms around the same centre, the path is a clean
+      // spiral that always, exactly, lands on time: no force to
+      // integrate, no tail to wait out, nothing to snap at the finish.
+      CX = W * 0.5; CY = H * 0.5;
+      const maxR = H * 0.46; // scatter stays comfortably inside the canvas on every axis
+
+      parts = targets.map((t, i) => {
+        const tx = t.x, ty = t.y;
+        const rT = Math.hypot(tx - CX, ty - CY);
+        const aT = Math.atan2(ty - CY, tx - CX);
+
+        // sqrt spacing gives an even *area* density across the
+        // scatter disc, rather than clumping near its centre
+        const r0 = maxR * Math.sqrt(0.1 + Math.random() * 0.9);
+        const a0 = Math.random() * Math.PI * 2;
+
+        // mostly one rotational direction — a coherent vortex, not
+        // independent spins — with a little turning the other way
+        const spinDir = i % 5 === 0 ? -1 : 1;
+        let fwd = aT - a0;
+        fwd = Math.atan2(Math.sin(fwd), Math.cos(fwd)); // shortest signed delta
+        if (spinDir > 0 && fwd < 0) fwd += Math.PI * 2;
+        if (spinDir < 0 && fwd > 0) fwd -= Math.PI * 2;
+        // fwd alone is already the natural one-directional path to
+        // the target — up to a full revolution, never more. (Adding
+        // a further whole loop on top would let the two stack to
+        // nearly two revolutions for an unlucky start angle — a
+        // wild, inconsistent sweep, not an elegant one.)
+        const totalTravel = fwd;
+
+        const x0 = CX + Math.cos(a0) * r0, y0 = CY + Math.sin(a0) * r0;
+
+        return {
+          tx, ty, sx: tx * DPR, sy: ty * DPR,
+          a0, r0, rDelta: rT - r0, totalTravel,
+          x: x0, y: y0, px: x0, py: y0,
+          vx: 0, vy: 0,
+          dur: 1900 + Math.random() * 500,
+          phase: Math.random() * 400, // staggers when each scrap finishes
+          k: 0.05 + Math.random() * 0.035,   // settled-state hold, for cursor interplay
+          damp: 0.82 + Math.random() * 0.05,
+          max: (5 + Math.random() * 4) * (H / 260),
+          acc: i % 23 === 0 ? 0 : i % 23 === 7 ? 1 : i % 23 === 15 ? 2 : -1,
+          loose: 0,
+        };
+      });
+
+      if (FAST) for (const p of parts) { p.x = p.tx; p.y = p.ty; p.px = p.x; p.py = p.y; }
 
       intro0 = FAST ? -1e7 : performance.now();
       if (REDUCED) { drawStatic(); return; }
@@ -201,43 +243,55 @@
       mouse.str += ((mouse.on ? 1 : 0) - mouse.str) * (mouse.on ? 0.35 : 0.12);
       bloom += (bloomTarget - bloom) * 0.08;
 
-      const lock = sstep((now - intro0 - 950) / 700); // assembly guarantee
       const ink = hex2rgb(css("--ink") || "#33291e");
       const accCols = [hex2rgb(css("--coral") || "#e15a3a"), hex2rgb(css("--marigold") || "#f0a63a"), hex2rgb(css("--sage") || "#7c9d69")];
       const fleeR = tile * 7;
 
       for (const p of parts) {
-        // underdamped spring toward home
-        p.vx += (p.tx - p.x) * p.k;
-        p.vy += (p.ty - p.y) * p.k;
-        p.vx *= p.damp; p.vy *= p.damp;
+        p.px = p.x; p.py = p.y;
+        const t = Math.min(1, Math.max(0, (now - intro0 - p.phase) / p.dur));
 
-        // cursor is a flee field, never a teleport
-        if (mouse.str > 0.01) {
-          const dx = p.x - mouse.x, dy = p.y - mouse.y;
-          const d = Math.hypot(dx, dy);
-          if (d < fleeR && d > 0.5) {
-            const f = ((1 - d / fleeR) * 3.1 * mouse.str) / d;
-            p.vx += dx * f; p.vy += dy * f;
-            p.loose = 1;
+        if (t < 1) {
+          // the spiral tween: position is computed directly from
+          // the eased path, not integrated from a velocity — so it
+          // is exactly on its target the instant t reaches 1
+          const te = sstep(t);
+          const rad = p.r0 + p.rDelta * te;
+          const ang = p.a0 + p.totalTravel * te;
+          p.x = CX + Math.cos(ang) * rad;
+          p.y = CY + Math.sin(ang) * rad;
+          p.vx = 0; p.vy = 0;
+        } else {
+          // settled: held at rest by a spring, so the cursor can
+          // still nudge a scrap loose and let it drift back
+          p.vx += (p.tx - p.x) * p.k;
+          p.vy += (p.ty - p.y) * p.k;
+          p.vx *= p.damp; p.vy *= p.damp;
+
+          if (mouse.str > 0.01) {
+            const mdx = p.x - mouse.x, mdy = p.y - mouse.y;
+            const d = Math.hypot(mdx, mdy);
+            if (d < fleeR && d > 0.5) {
+              const f = ((1 - d / fleeR) * 3.1 * mouse.str) / d;
+              p.vx += mdx * f; p.vy += mdy * f;
+              p.loose = 1;
+            }
           }
+
+          const sp = Math.hypot(p.vx, p.vy);
+          if (sp > p.max) { p.vx *= p.max / sp; p.vy *= p.max / sp; }
+          p.x += p.vx; p.y += p.vy;
+          if (p.loose && sp < 0.35) p.loose = 0;
         }
 
-        const sp = Math.hypot(p.vx, p.vy);
-        if (sp > p.max) { p.vx *= p.max / sp; p.vy *= p.max / sp; }
+        // belt-and-suspenders: nothing is ever allowed past the
+        // canvas edge, whatever the path did to get there
+        if (p.x < -tile) p.x = -tile; else if (p.x > W + tile) p.x = W + tile;
+        if (p.y < -tile) p.y = -tile; else if (p.y > H + tile) p.y = H + tile;
 
-        p.x += p.vx; p.y += p.vy;
-
-        // the intro lock pulls everyone home so the word resolves
-        if (lock > 0 && !p.loose) {
-          p.x += (p.tx - p.x) * lock * 0.3;
-          p.y += (p.ty - p.y) * lock * 0.3;
-          p.vx *= 1 - lock * 0.4; p.vy *= 1 - lock * 0.4;
-        }
-        if (p.loose && sp < 0.35) p.loose = 0;
-
-        const speed = Math.hypot(p.vx, p.vy);
-        const still = speed < p.max * 0.03 && !p.loose &&
+        const dvx = p.x - p.px, dvy = p.y - p.py;
+        const speed = Math.hypot(dvx, dvy);
+        const still = t >= 1 && !p.loose &&
                       Math.abs(p.x - p.tx) < 0.8 && Math.abs(p.y - p.ty) < 0.8;
         const ts = tile * DPR;
 
@@ -256,16 +310,16 @@
 
           // fast scraps trail a whisper of their accent
           if (speed > 0.9) {
-            const t = Math.min(1, speed / p.max);
+            const tt = Math.min(1, speed / p.max);
             const c = p.acc >= 0 ? accCols[p.acc] : accCols[0];
-            const r = Math.round(ink[0] + (c[0] - ink[0]) * t);
-            const g = Math.round(ink[1] + (c[1] - ink[1]) * t);
-            const b = Math.round(ink[2] + (c[2] - ink[2]) * t);
-            ctx.strokeStyle = `rgba(${r},${g},${b},${0.35 * t + 0.08})`;
+            const r = Math.round(ink[0] + (c[0] - ink[0]) * tt);
+            const g = Math.round(ink[1] + (c[1] - ink[1]) * tt);
+            const b = Math.round(ink[2] + (c[2] - ink[2]) * tt);
+            ctx.strokeStyle = `rgba(${r},${g},${b},${0.35 * tt + 0.08})`;
             ctx.lineWidth = 1.2;
             ctx.lineCap = "round";
             ctx.beginPath();
-            ctx.moveTo(p.x - p.vx * 1.4 + tile / 2, p.y - p.vy * 1.4 + tile / 2);
+            ctx.moveTo(p.x - dvx * 1.4 + tile / 2, p.y - dvy * 1.4 + tile / 2);
             ctx.lineTo(p.x + tile / 2, p.y + tile / 2);
             ctx.stroke();
           }
