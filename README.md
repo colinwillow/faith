@@ -13,6 +13,9 @@ Plain HTML + CSS, no build step, no frameworks. Edit, commit, push — GitHub Pa
 | `index.html` | The whole site — all sections, with `<!-- ✏️ -->` comments marking spots to personalize |
 | `styles.css` | All styling — colors and fonts live in the `:root` block at the top, so re-theming is a five-line edit |
 | `CNAME` | Points GitHub Pages at faithudall.com — leave it alone |
+| `images/` | Icons for favicon, iOS home screen, and social previews — all sizes generated from `icon-1024.png` |
+| `site.webmanifest` | Web app manifest — makes "Add to Home Screen" behave like an app, with name "Faith" |
+| `favicon.ico` | Classic multi-size browser favicon |
 
 ## Easy customizations
 
