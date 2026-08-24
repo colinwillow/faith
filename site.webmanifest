@@ -4,8 +4,8 @@
   "description": "Faith Udall — early childhood educator, preschool & TK teacher.",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#fdf8f1",
-  "theme_color": "#fdf8f1",
+  "background_color": "#f7f0e3",
+  "theme_color": "#f7f0e3",
   "icons": [
     {
       "src": "/images/icon-192.png",

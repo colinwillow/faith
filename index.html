@@ -2,13 +2,12 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Faith Udall — Early Childhood Educator</title>
-  <meta name="description" content="Faith Udall is an early childhood educator — preschool &amp; transitional kindergarten teacher — building joyful, nurturing spaces where little learners thrive.">
+  <meta name="description" content="Faith Udall is an early childhood educator — preschool &amp; transitional kindergarten teacher. Paper, crayons, and small brave people.">
 
-  <!-- Social sharing preview -->
   <meta property="og:title" content="Faith Udall — Early Childhood Educator">
-  <meta property="og:description" content="Preschool &amp; TK teacher building joyful, nurturing spaces where little learners thrive.">
+  <meta property="og:description" content="Preschool &amp; TK teacher. Paper, crayons, and small brave people.">
   <meta property="og:url" content="https://faithudall.com">
   <meta property="og:type" content="website">
   <meta property="og:image" content="https://faithudall.com/images/icon-512.png">
@@ -22,199 +21,209 @@
   <link rel="apple-touch-icon" sizes="152x152" href="/images/apple-touch-icon-152.png">
   <meta name="apple-mobile-web-app-title" content="Faith">
   <link rel="manifest" href="/site.webmanifest">
-  <meta name="theme-color" content="#fdf8f1">
+  <meta name="theme-color" media="(prefers-color-scheme: light)" content="#f7f0e3">
+  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1a1510">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
-  <!-- ============ Header ============ -->
-  <header class="site-header">
-    <a class="brand" href="#top">Faith&nbsp;Udall</a>
-    <nav class="site-nav" aria-label="Main">
-      <a href="#about">About</a>
-      <a href="#work">What I Do</a>
-      <a href="#ideas">On the Horizon</a>
-      <a href="#contact" class="nav-cta">Say Hello</a>
+  <!-- ── chrome ─────────────────────────────────────────────
+       floats on the paper. no bar, no border, no shadow. -->
+  <header class="chrome">
+    <a class="chrome__mark" href="#top">
+      <span class="chrome__ring" aria-hidden="true"></span>
+      <span class="chrome__word">Faith Udall</span>
+    </a>
+    <nav class="chrome__nav" aria-label="Main">
+      <a href="#about"><i>01</i>about</a>
+      <a href="#days"><i>02</i>days</a>
+      <a href="#someday"><i>03</i>someday</a>
+      <a href="#hello"><i>04</i>hello</a>
+      <button id="theme-flip" class="theme-flip" type="button" aria-label="Switch between day and naptime themes"></button>
     </nav>
   </header>
 
   <main id="top">
 
-    <!-- ============ Hero ============ -->
+    <!-- ── hero ───────────────────────────────────────────
+         the name is written by the swarm. the empty slot is a
+         layout contract: css owns the box, the canvas owns the
+         pixels, the sr-only h1 owns the meaning. -->
     <section class="hero">
-      <div class="hero-text">
-        <p class="eyebrow">Preschool &amp; Transitional Kindergarten Teacher</p>
-        <h1>Hi, I’m Faith. I help little learners feel <em>big</em> things — curiosity, confidence, and joy.</h1>
-        <p class="lede">
-          I’m an early childhood educator who believes the first classrooms in a child’s life
-          should feel warm, playful, and safe enough to try, wobble, and try again.
-        </p>
-        <div class="hero-actions">
-          <a class="btn btn-primary" href="#contact">Get in touch</a>
-          <a class="btn btn-ghost" href="#about">More about me</a>
-        </div>
+      <p class="hero__eyebrow t-fx" style="--d:0">preschool · transitional kindergarten</p>
+      <h1 class="sr-only">Faith Udall</h1>
+      <div class="word-slot" aria-hidden="true">
+        <canvas id="swarm"></canvas>
       </div>
-
-      <!--
-        Photo spot: when you have a picture of Faith, replace this whole
-        <div class="hero-art">…</div> with:
-          <img class="hero-photo" src="images/faith.jpg" alt="Faith Udall">
-        (and see the .hero-photo styles already waiting in styles.css)
-      -->
-      <div class="hero-art" aria-hidden="true">
-        <div class="sun"></div>
-        <div class="blob blob-1"></div>
-        <div class="blob blob-2"></div>
-        <div class="block block-a">A</div>
-        <div class="block block-b">B</div>
-        <div class="block block-c">C</div>
+      <p class="hero__lede t-fx" style="--d:1">
+        early childhood educator. i help small people feel big things —
+        curiosity, confidence, and the nerve to try again.
+      </p>
+      <div class="hero__actions t-fx" style="--d:2">
+        <a class="btn btn--fill" href="#hello" data-warm>say hello</a>
+        <a class="btn btn--ghost" href="#someday">what i'm dreaming up</a>
       </div>
+      <p class="hero__status t-fx" style="--d:3"><span class="pulse-dot" aria-hidden="true"></span>currently teaching preschool &amp; tk</p>
     </section>
 
-    <!-- ============ About ============ -->
+    <!-- ── ticker ── the days, on a loop -->
+    <div class="ticker" aria-hidden="true">
+      <div class="ticker__track">
+        <span>paint-covered hands</span><i>·</i>
+        <span>picture books read twice</span><i>·</i>
+        <span>the good blocks</span><i>·</i>
+        <span>tricky first friendships</span><i>·</i>
+        <span>circle time</span><i>·</i>
+        <span>a thousand tiny breakthroughs</span><i>·</i>
+        <span>glue-stick season</span><i>·</i>
+        <span>brave wobbles</span><i>·</i>
+        <span>snack negotiations</span><i>·</i>
+        <span>letters learned by heart</span><i>·</i>
+        <!-- duplicate for the seamless loop -->
+        <span>paint-covered hands</span><i>·</i>
+        <span>picture books read twice</span><i>·</i>
+        <span>the good blocks</span><i>·</i>
+        <span>tricky first friendships</span><i>·</i>
+        <span>circle time</span><i>·</i>
+        <span>a thousand tiny breakthroughs</span><i>·</i>
+        <span>glue-stick season</span><i>·</i>
+        <span>brave wobbles</span><i>·</i>
+        <span>snack negotiations</span><i>·</i>
+        <span>letters learned by heart</span><i>·</i>
+      </div>
+    </div>
+
+    <!-- ── 01 about ── -->
     <section id="about" class="section">
-      <div class="section-head">
-        <span class="section-kicker">About</span>
-        <h2>A teacher at heart, wherever the classroom is</h2>
+      <div class="section__rail">
+        <span class="coord">01 — about</span>
+        <span class="coord coord--note">hi, it's me</span>
       </div>
-      <div class="about-grid">
-        <div class="about-copy">
-          <!-- ✏️ Faith: this is your story — rewrite it in your own words! -->
-          <p>
-            I currently teach preschool and transitional kindergarten at a private school,
-            where my days are full of picture books, paint-covered hands, tricky first
-            friendships, and the thousand tiny breakthroughs that make early childhood
-            education the best job in the world.
+      <div class="about">
+        <div class="about__portrait t-fx" style="--d:0">
+          <svg class="arcs" viewBox="0 0 220 220" aria-hidden="true">
+            <circle class="arc arc--1" cx="110" cy="110" r="104" pathLength="360"></circle>
+            <circle class="arc arc--2" cx="110" cy="110" r="96"  pathLength="360"></circle>
+            <circle class="arc arc--3" cx="110" cy="110" r="88"  pathLength="360"></circle>
+          </svg>
+          <img src="images/icon-512.png" alt="Portrait of Faith Udall" width="152" height="152">
+        </div>
+        <div class="about__copy">
+          <h2 class="t-fx" style="--d:1">a teacher at <em class="cx">heart</em>, wherever the classroom is</h2>
+          <!-- ✏️ faith: your story, in your words. this is starter text. -->
+          <p class="t-fx" style="--d:2">
+            I teach preschool and transitional kindergarten at a private school,
+            where the days are made of picture books, tricky first friendships,
+            and the thousand tiny breakthroughs that make early childhood the
+            best classroom in the world.
           </p>
-          <p>
-            My approach is simple: children learn best when they feel known and safe.
-            I build classrooms around play, routine, and genuine relationships — with
-            kids and with their families.
-          </p>
-          <p>
-            Outside the classroom, I’m always dreaming up what’s next: programs, spaces,
-            and ideas that bring that same warmth to more families.
+          <p class="t-fx" style="--d:3">
+            My approach is simple: children learn best when they feel known and
+            safe. So I build rooms around play, routine, and real relationships —
+            with kids, and with their families.
           </p>
         </div>
-        <ul class="fact-cards">
-          <li>
-            <span class="fact-emoji">🍎</span>
-            <strong>Preschool &amp; TK</strong>
-            <span>Private school classroom teacher</span>
-          </li>
-          <li>
-            <span class="fact-emoji">🎨</span>
-            <strong>Play-based learning</strong>
-            <span>Hands-on, child-led, joyful</span>
-          </li>
-          <li>
-            <span class="fact-emoji">💛</span>
-            <strong>Family partnership</strong>
-            <span>Parents as teammates, always</span>
-          </li>
-        </ul>
       </div>
+      <!-- hairlines are the 1px gaps showing through, not borders -->
+      <ul class="specs t-fx" style="--d:4">
+        <li class="spec"><span class="spec__key">room</span><span class="spec__val">preschool &amp; tk</span></li>
+        <li class="spec"><span class="spec__key">method</span><span class="spec__val">play, mostly</span></li>
+        <li class="spec"><span class="spec__key">families</span><span class="spec__val">teammates</span></li>
+      </ul>
     </section>
 
-    <!-- ============ What I Do ============ -->
-    <section id="work" class="section section-alt">
-      <div class="section-head">
-        <span class="section-kicker">What I Do</span>
-        <h2>The everyday work of growing small humans</h2>
+    <!-- ── 02 days ── -->
+    <section id="days" class="section">
+      <div class="section__rail">
+        <span class="coord">02 — days</span>
+        <span class="coord coord--note">monday through friday</span>
       </div>
-      <div class="card-grid">
-        <article class="card">
-          <span class="card-emoji">📚</span>
-          <h3>Early literacy &amp; kindergarten readiness</h3>
-          <p>Building the letters-numbers-and-listening foundation that makes the leap to kindergarten feel exciting instead of scary.</p>
-        </article>
-        <article class="card">
-          <span class="card-emoji">🧸</span>
-          <h3>Social-emotional learning</h3>
-          <p>Naming big feelings, sharing the good blocks, and learning that being a kind friend is a skill you practice.</p>
-        </article>
-        <article class="card">
-          <span class="card-emoji">🖍️</span>
-          <h3>Curriculum &amp; classroom design</h3>
-          <p>Thoughtful centers, seasonal themes, and routines that give little ones the structure they secretly love.</p>
-        </article>
-        <article class="card">
-          <span class="card-emoji">🤝</span>
-          <h3>Family communication</h3>
-          <p>Keeping parents in the loop and in the team — conferences, updates, and honest conversations about each child.</p>
-        </article>
-      </div>
+      <h2 class="section__title t-fx" style="--d:0">the everyday work of growing <em class="cx">small</em> humans</h2>
+      <ol class="craft">
+        <li class="craft__row t-fx" style="--d:1">
+          <span class="craft__num" aria-hidden="true">Ⅰ</span>
+          <h3>early literacy &amp; kindergarten readiness</h3>
+          <p>letters, numbers, and listening — so the leap to kindergarten feels exciting instead of scary.</p>
+        </li>
+        <li class="craft__row t-fx" style="--d:2">
+          <span class="craft__num" aria-hidden="true">Ⅱ</span>
+          <h3>social-emotional learning</h3>
+          <p>naming big feelings, sharing the good blocks, and practicing what it takes to be a kind friend.</p>
+        </li>
+        <li class="craft__row t-fx" style="--d:3">
+          <span class="craft__num" aria-hidden="true">Ⅲ</span>
+          <h3>curriculum &amp; classroom design</h3>
+          <p>thoughtful centers, seasonal themes, and routines that give little ones the structure they secretly love.</p>
+        </li>
+        <li class="craft__row t-fx" style="--d:4">
+          <span class="craft__num" aria-hidden="true">Ⅳ</span>
+          <h3>family partnership</h3>
+          <p>conferences, updates, and honest conversations — parents on the team, always.</p>
+        </li>
+      </ol>
     </section>
 
-    <!-- ============ On the Horizon ============ -->
-    <section id="ideas" class="section">
-      <div class="section-head">
-        <span class="section-kicker">On the Horizon</span>
-        <h2>Ideas I’m dreaming up</h2>
-        <p class="section-sub">
-          The classroom is just the beginning. Here’s what I’m exploring next —
-          if any of these spark something for you, I’d love to talk.
-        </p>
+    <!-- ── 03 someday ── -->
+    <section id="someday" class="section">
+      <div class="section__rail">
+        <span class="coord">03 — someday</span>
+        <span class="coord coord--note">watch this space</span>
       </div>
-      <div class="idea-list">
-        <article class="idea">
-          <span class="idea-num">01</span>
-          <div>
-            <h3>A home-grown daycare</h3>
-            <p>A small, nurturing childcare space with the intentionality of a great preschool classroom — somewhere parents trust and kids can’t wait to get to.</p>
+      <h2 class="section__title t-fx" style="--d:0">things i'm <em class="cx">dreaming</em> up</h2>
+      <ol class="ideas">
+        <li class="idea t-fx" style="--d:1">
+          <span class="idea__num" aria-hidden="true">01</span>
+          <div class="idea__body">
+            <h3>a home-grown daycare</h3>
+            <p>a small, nurturing childcare space with the intentionality of a great preschool classroom.</p>
           </div>
-        </article>
-        <article class="idea">
-          <span class="idea-num">02</span>
-          <div>
-            <h3>Summer programs &amp; camps</h3>
-            <p>Play-packed summer sessions for little ones — art, stories, outdoor adventures, and a bridge of learning between school years.</p>
+          <span class="chip"><span class="chip__dot" aria-hidden="true"></span>dreaming</span>
+        </li>
+        <li class="idea t-fx" style="--d:2">
+          <span class="idea__num" aria-hidden="true">02</span>
+          <div class="idea__body">
+            <h3>summer programs &amp; camps</h3>
+            <p>art, stories, outdoor adventures — a bridge of play between school years.</p>
           </div>
-        </article>
-        <article class="idea">
-          <span class="idea-num">03</span>
-          <div>
-            <h3>Enrichment &amp; workshops</h3>
-            <p>Parent workshops, kindergarten-readiness sessions, and other ways to share what I’ve learned with the families who need it.</p>
+          <span class="chip"><span class="chip__dot" aria-hidden="true"></span>sketching</span>
+        </li>
+        <li class="idea t-fx" style="--d:3">
+          <span class="idea__num" aria-hidden="true">03</span>
+          <div class="idea__body">
+            <h3>workshops for grown-ups</h3>
+            <p>kindergarten-readiness sessions and honest talks for the families who want them.</p>
           </div>
-        </article>
-      </div>
+          <span class="chip"><span class="chip__dot" aria-hidden="true"></span>someday</span>
+        </li>
+      </ol>
     </section>
 
-    <!-- ============ Contact ============ -->
-    <section id="contact" class="section contact">
-      <div class="contact-inner">
-        <span class="section-kicker">Say Hello</span>
-        <h2>Let’s connect</h2>
-        <p>
-          Whether you’re a family, a school, or a fellow educator —
-          I’d love to hear from you.
-        </p>
-        <!-- ✏️ Swap in Faith's real email address here (both in href and the text) -->
-        <a class="btn btn-primary btn-big" href="mailto:hello@faithudall.com">hello@faithudall.com</a>
-        <!--
-          Later, you can add links here too, e.g.:
-          <div class="social-links">
-            <a href="https://www.linkedin.com/in/...">LinkedIn</a>
-            <a href="https://instagram.com/...">Instagram</a>
-          </div>
-        -->
+    <!-- ── 04 hello ── -->
+    <section id="hello" class="section section--hello">
+      <div class="section__rail">
+        <span class="coord">04 — hello</span>
+        <span class="coord coord--note">answered after naptime</span>
+      </div>
+      <div class="hello">
+        <h2 class="t-fx" style="--d:0">come say <em class="cx">hello</em></h2>
+        <p class="t-fx" style="--d:1">for families, schools, and fellow teachers.</p>
+        <!-- ✏️ swap in faith's real email (href + text) -->
+        <a class="signal-line t-fx" style="--d:2" href="mailto:hello@faithudall.com" data-warm>hello@faithudall.com</a>
       </div>
     </section>
 
   </main>
 
-  <footer class="site-footer">
-    <p>© <span id="year">2026</span> Faith Udall · Made with 💛</p>
+  <footer class="foot">
+    <p>© <span id="year">2026</span> faith udall <i>·</i> paper, crayons, tiny chairs</p>
+    <span class="foot__ver" aria-hidden="true">v2.0</span>
   </footer>
 
-  <script>
-    document.getElementById('year').textContent = new Date().getFullYear();
-  </script>
+  <script src="main.js" defer></script>
 </body>
 </html>
