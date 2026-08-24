@@ -61,14 +61,28 @@
 
     function fontFor(px) { return `700 ${px}px "Bricolage Grotesque", "Avenir Next", "Segoe UI", sans-serif`; }
 
-    /* rasterize the word once at device resolution, centered by
-       its real metrics — not by textBaseline's guess */
+    /* the mark is brush-lettered artwork (alpha-only PNG); the
+       colour comes from the tint pass, so themes still work.
+       until it loads — or if it never does — type stands in. */
+    const wordImg = new Image();
+    let wordOk = true; // flips off if the image taints the canvas (file:// previews)
+    wordImg.src = "images/word-faith.png";
+    wordImg.decode().then(() => settle(), () => {});
+
+    /* rasterize the mark once at device resolution */
     function buildArt() {
       const c = document.createElement("canvas");
       c.width = Math.max(2, W * DPR);
       c.height = Math.max(2, H * DPR);
       const g = c.getContext("2d");
       g.scale(DPR, DPR);
+      if (wordOk && wordImg.complete && wordImg.naturalWidth > 0) {
+        const s = Math.min((W * 0.98) / wordImg.naturalWidth, (H * 0.98) / wordImg.naturalHeight);
+        const dw = wordImg.naturalWidth * s, dh = wordImg.naturalHeight * s;
+        g.drawImage(wordImg, (W - dw) / 2, (H - dh) / 2, dw, dh);
+        return c;
+      }
+      // fallback: set the word in type, centered by its real metrics
       g.font = fontFor(100);
       const m100 = g.measureText(WORD);
       const size = Math.min(H * 0.9, ((W * 0.96) / m100.width) * 100);
@@ -122,7 +136,15 @@
       sample.width = W; sample.height = H;
       const sg = sample.getContext("2d");
       sg.drawImage(art, 0, 0, W, H);
-      const data = sg.getImageData(0, 0, W, H).data;
+      let data;
+      try {
+        data = sg.getImageData(0, 0, W, H).data;
+      } catch (err) {
+        // the artwork tainted the canvas (file:// preview) — fall
+        // back to type and re-run cleanly
+        if (wordOk) { wordOk = false; settle(); }
+        return;
+      }
 
       tile = Math.max(4, Math.round(H / 36));
       const targets = [];
