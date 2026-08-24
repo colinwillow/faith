@@ -12,7 +12,7 @@
   <meta property="og:type" content="website">
   <meta property="og:image" content="https://faithudall.com/images/icon-512.png">
 
-  <!-- Icons: favicon + iOS add-to-home-screen (all generated from images/icon-1024.png) -->
+  <!-- Icons: favicon + iOS add-to-home-screen (all generated from images/monogram.png) -->
   <link rel="icon" href="/favicon.ico" sizes="48x48">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16.png">
@@ -21,12 +21,12 @@
   <link rel="apple-touch-icon" sizes="152x152" href="/images/apple-touch-icon-152.png">
   <meta name="apple-mobile-web-app-title" content="Faith">
   <link rel="manifest" href="/site.webmanifest">
-  <meta name="theme-color" media="(prefers-color-scheme: light)" content="#faf4e9">
-  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#211a12">
+  <meta name="theme-color" media="(prefers-color-scheme: light)" content="#faf6f3">
+  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#15120f">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Outfit:wght@300..700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Italiana&family=Jost:ital,wght@0,200..600;1,200..600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 
   <link rel="stylesheet" href="styles.css">
 </head>
@@ -35,41 +35,39 @@
   <!-- ── Chrome — floats on the page, no bar ── -->
   <header class="chrome">
     <a class="chrome__mark" href="#top">
-      <span class="chrome__ring" aria-hidden="true"></span>
+      <img class="chrome__logo" src="images/monogram.png" alt="Faith Udall" width="24" height="34">
       <span class="chrome__word">Faith Udall</span>
     </a>
     <nav class="chrome__nav" aria-label="Main">
-      <a href="#about">About</a>
-      <a href="#days">Days</a>
-      <a href="#moments">Moments</a>
-      <a href="#someday">Someday</a>
-      <a href="#hello">Hello</a>
+      <span class="chrome__links">
+        <a href="#about">About</a>
+        <a href="#days">Days</a>
+        <a href="#moments">Moments</a>
+        <a href="#someday">Someday</a>
+        <a href="#hello">Hello</a>
+      </span>
       <button id="theme-flip" class="theme-flip" type="button" aria-label="Switch between day and naptime themes"></button>
     </nav>
   </header>
 
   <main id="top">
 
-    <!-- ── Hero — the name is written by the swarm ── -->
+    <!-- ── Hero ── the wordmark, presented, not performed ── -->
     <section class="hero">
-      <div class="orb orb--1" aria-hidden="true"></div>
-      <div class="orb orb--2" aria-hidden="true"></div>
-      <div class="orb orb--3" aria-hidden="true"></div>
-
       <p class="hero__eyebrow t-fx" style="--d:0">Preschool · Transitional Kindergarten</p>
-      <h1 class="sr-only">Faith Udall</h1>
-      <div class="word-slot" aria-hidden="true">
-        <canvas id="swarm"></canvas>
-      </div>
-      <p class="hero__lede t-fx" style="--d:1">
-        Early childhood educator — helping small people feel <strong>big things</strong>:
+      <h1 class="hero__mark t-fx" style="--d:1">
+        <img src="images/wordmark.png" alt="Faith Udall" width="1196" height="151">
+      </h1>
+      <span class="hero__rule t-fx" style="--d:2" aria-hidden="true"></span>
+      <p class="hero__lede t-fx" style="--d:3">
+        Early childhood educator — helping small people feel big things:
         curiosity, confidence, and the nerve to try again.
       </p>
-      <div class="hero__actions t-fx" style="--d:2">
-        <a class="btn btn--fill" href="#hello" data-warm>Say hello</a>
+      <div class="hero__actions t-fx" style="--d:4">
+        <a class="btn btn--fill" href="#hello">Say hello</a>
         <a class="btn btn--ghost" href="#someday">What's next</a>
       </div>
-      <p class="hero__status t-fx" style="--d:3"><span class="pulse-dot" aria-hidden="true"></span>Currently teaching preschool &amp; TK</p>
+      <p class="hero__status t-fx" style="--d:5"><span class="pulse-dot" aria-hidden="true"></span>Currently teaching preschool &amp; TK</p>
     </section>
 
     <!-- ── 01 About ── -->
@@ -80,10 +78,12 @@
       </div>
       <div class="about">
         <figure class="about__portrait t-fx" style="--d:0">
-          <img src="images/icon-512.png" alt="Portrait of Faith Udall">
+          <span class="corner corner--tl" aria-hidden="true"></span>
+          <span class="corner corner--br" aria-hidden="true"></span>
+          <img src="images/portrait.png" alt="Portrait of Faith Udall">
         </figure>
         <div class="about__copy">
-          <h2 class="t-fx" style="--d:1">A teacher at <span class="gx">heart</span>, wherever the classroom is</h2>
+          <h2 class="t-fx" style="--d:1">A teacher at heart, wherever the classroom is</h2>
           <!-- ✏️ Faith: your story, in your words — this is starter text -->
           <p class="t-fx" style="--d:2">
             I teach preschool and transitional kindergarten at a private school,
@@ -105,58 +105,35 @@
       </div>
     </section>
 
-    <!-- ── 02 Days ── -->
+    <!-- ── 02 Days ── ruled list, no cards ── -->
     <section id="days" class="section">
       <div class="section__rail">
         <span class="coord">02 — Days</span>
         <span class="coord coord--note">Monday through Friday</span>
       </div>
-      <h2 class="section__title t-fx" style="--d:0">The everyday work of growing <span class="gx">small</span> humans</h2>
-      <div class="card-grid">
-        <article class="card t-fx" style="--d:1; --c: var(--coral)">
-          <span class="card__icon" aria-hidden="true">
-            <!-- open book -->
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M12 6c-1.8-1.4-4.4-2-8-2v14c3.6 0 6.2.6 8 2 1.8-1.4 4.4-2 8-2V4c-3.6 0-6.2.6-8 2z"/>
-              <path d="M12 6v14"/>
-            </svg>
-          </span>
+      <h2 class="section__title t-fx" style="--d:0">The everyday work of growing small humans</h2>
+      <ol class="craft">
+        <li class="craft__row t-fx" style="--d:1">
+          <span class="craft__num" aria-hidden="true">Ⅰ</span>
           <h3>Early literacy &amp; kindergarten readiness</h3>
           <p>Letters, numbers, and listening — so the leap to kindergarten feels exciting instead of scary.</p>
-        </article>
-        <article class="card t-fx" style="--d:2; --c: var(--marigold)">
-          <span class="card__icon" aria-hidden="true">
-            <!-- heart -->
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M12 20s-7.5-4.6-9.3-9C1.3 7.5 3.6 4.5 6.7 4.5c2 0 3.7 1.2 5.3 3 1.6-1.8 3.3-3 5.3-3 3.1 0 5.4 3 4 6.5-1.8 4.4-9.3 9-9.3 9z"/>
-            </svg>
-          </span>
+        </li>
+        <li class="craft__row t-fx" style="--d:2">
+          <span class="craft__num" aria-hidden="true">Ⅱ</span>
           <h3>Social-emotional learning</h3>
           <p>Naming big feelings, sharing the good blocks, and practicing what it takes to be a kind friend.</p>
-        </article>
-        <article class="card t-fx" style="--d:3; --c: var(--sage)">
-          <span class="card__icon" aria-hidden="true">
-            <!-- stacked blocks -->
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-              <rect x="3.5" y="12.5" width="8" height="8" rx="1.5"/>
-              <rect x="12.5" y="12.5" width="8" height="8" rx="1.5"/>
-              <rect x="8" y="3.5" width="8" height="8" rx="1.5"/>
-            </svg>
-          </span>
+        </li>
+        <li class="craft__row t-fx" style="--d:3">
+          <span class="craft__num" aria-hidden="true">Ⅲ</span>
           <h3>Curriculum &amp; classroom design</h3>
           <p>Thoughtful centers, seasonal themes, and routines that give little ones the structure they secretly love.</p>
-        </article>
-        <article class="card t-fx" style="--d:4; --c: var(--sky)">
-          <span class="card__icon" aria-hidden="true">
-            <!-- speech bubble -->
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M21 11.5c0 4.1-4 7.5-9 7.5-1 0-2-.14-2.9-.4L4 20l1.2-3.6C3.8 15.1 3 13.4 3 11.5 3 7.4 7 4 12 4s9 3.4 9 7.5z"/>
-            </svg>
-          </span>
+        </li>
+        <li class="craft__row t-fx" style="--d:4">
+          <span class="craft__num" aria-hidden="true">Ⅳ</span>
           <h3>Family partnership</h3>
           <p>Conferences, updates, and honest conversations — parents on the team, always.</p>
-        </article>
-      </div>
+        </li>
+      </ol>
     </section>
 
     <!-- ── 03 Moments — the image band ── -->
@@ -165,43 +142,42 @@
         <span class="coord">03 — Moments</span>
         <span class="coord coord--note">The camera roll</span>
       </div>
-      <h2 class="section__title t-fx" style="--d:0">Little moments, <span class="gx">big</span> deal</h2>
-      <!-- ✏️ Swap the placeholder tiles for real photos: replace a
-           <div class="tile tile--soon …"> with
+      <h2 class="section__title t-fx" style="--d:0">Little moments, big deal</h2>
+      <!-- ✏️ Swap any tile--soon placeholder for a real photo:
            <figure class="tile"><img src="images/your-photo.jpg" alt="…"></figure>
-           (add tile--tall or tile--wide to change its footprint) -->
+           (keep tile--tall / tile--wide to preserve its footprint) -->
       <div class="moments">
         <figure class="tile tile--tall t-fx" style="--d:1">
-          <img src="images/icon-512.png" alt="Faith Udall">
+          <img src="images/portrait.png" alt="Faith Udall">
         </figure>
-        <div class="tile tile--soon tile--wide tile--gold t-fx" style="--d:2">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true">
+        <div class="tile tile--soon tile--wide t-fx" style="--d:2">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" aria-hidden="true">
             <circle cx="12" cy="12" r="4.5"/>
             <path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3M5.3 5.3l2.1 2.1M16.6 16.6l2.1 2.1M18.7 5.3l-2.1 2.1M7.4 16.6l-2.1 2.1"/>
           </svg>
           <span class="tile__note">Photo soon</span>
         </div>
-        <div class="tile tile--soon tile--green t-fx" style="--d:3">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <div class="tile tile--soon t-fx" style="--d:3">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             <path d="M21 3L10 14M21 3l-7 18-4-7-7-4 18-7z"/>
           </svg>
           <span class="tile__note">Photo soon</span>
         </div>
-        <div class="tile tile--soon tile--peach t-fx" style="--d:4">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <div class="tile tile--soon t-fx" style="--d:4">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             <path d="M12 3l2.5 5.5L20 9.3l-4 4 1 5.7-5-2.8-5 2.8 1-5.7-4-4 5.5-.8L12 3z"/>
           </svg>
           <span class="tile__note">Photo soon</span>
         </div>
-        <div class="tile tile--soon tile--blue t-fx" style="--d:5">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <div class="tile tile--soon t-fx" style="--d:5">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             <path d="M4 19c2-6 5-9 8-9s6 3 8 9M9 7a3 3 0 116 0 3 3 0 01-6 0z"/>
           </svg>
           <span class="tile__note">Photo soon</span>
         </div>
-        <div class="tile tile--soon tile--plain t-fx" style="--d:6">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <rect x="3" y="6" width="18" height="14" rx="2.5"/>
+        <div class="tile tile--soon tile--wide t-fx" style="--d:6">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <rect x="3" y="6" width="18" height="14" rx="2"/>
             <path d="M8.5 6l1.2-2h4.6l1.2 2"/>
             <circle cx="12" cy="13" r="3.4"/>
           </svg>
@@ -210,14 +186,14 @@
       </div>
     </section>
 
-    <!-- ── 04 Someday — the bold moment ── -->
+    <!-- ── 04 Someday — the one section that gets to be playful ── -->
     <section id="someday" class="section">
       <div class="section__rail">
         <span class="coord">04 — Someday</span>
         <span class="coord coord--note">Watch this space</span>
       </div>
       <div class="band t-fx" style="--d:0">
-        <h2>Big dreams, <span class="gx">in progress</span></h2>
+        <h2 class="band__title">Big dreams, in progress</h2>
         <p class="band__sub">The classroom is just the beginning. Here's what's on the drawing board.</p>
         <ol class="ideas">
           <li class="idea">
@@ -255,19 +231,19 @@
         <span class="coord coord--note">Answered after naptime</span>
       </div>
       <div class="hello">
-        <h2 class="t-fx" style="--d:0">Come say <span class="gx">hello</span></h2>
+        <h2 class="t-fx" style="--d:0">Come say hello</h2>
         <p class="t-fx" style="--d:1">For families, schools, and fellow teachers.</p>
         <!-- ✏️ Swap in Faith's real email (both href and the text below) -->
-        <a class="btn btn--fill t-fx" style="--d:2" href="mailto:hello@faithudall.com" data-warm>Email Faith</a>
-        <p class="hello__alt t-fx" style="--d:3">or write to <a href="mailto:hello@faithudall.com" data-warm>hello@faithudall.com</a></p>
+        <a class="btn btn--fill t-fx" style="--d:2" href="mailto:hello@faithudall.com">Email Faith</a>
+        <p class="hello__alt t-fx" style="--d:3">or write to <a href="mailto:hello@faithudall.com">hello@faithudall.com</a></p>
       </div>
     </section>
 
   </main>
 
   <footer class="foot">
-    <p>© <span id="year">2026</span> Faith Udall <i>·</i> Paper, crayons, tiny chairs</p>
-    <span class="foot__ver" aria-hidden="true">v3.0</span>
+    <p>© <span id="year">2026</span> Faith Udall <i>·</i> Preschool &amp; TK</p>
+    <span class="foot__ver" aria-hidden="true">v4.0</span>
   </footer>
 
   <script src="main.js" defer></script>
