@@ -78,6 +78,7 @@ body {
   line-height: 1.65;
   -webkit-font-smoothing: antialiased;
   transition: background-color 0.6s ease, color 0.6s ease;
+  overflow-x: clip; /* the full-bleed stages use the 100vw trick */
 }
 
 ::selection { background: var(--accent); color: var(--on-ink); }
@@ -469,33 +470,105 @@ h2 {
 }
 .spec__val { font-weight: 400; font-size: 0.98rem; }
 
-/* ── days: ruled rows, roman numerals ───────────────────── */
+/* ── the stages: Faith in the studio, presenting ──────────
+   full-bleed bands in the photos' own warm tan; the photo's
+   edges are faded into the band so she stands in the page,
+   not in a rectangle */
 
-.craft { list-style: none; }
-
-.craft__row {
-  display: grid;
-  grid-template-columns: 3.4rem 1fr 1.3fr 34px;
-  gap: 1.6rem;
-  align-items: baseline;
-  border-top: 1px solid var(--line);
-  padding: 1.6rem 0.2rem;
-  transition: background 0.3s ease;
+.stage {
+  --stage-bg: #f0cfac;
+  position: relative;
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+  background: var(--stage-bg);
 }
-.craft__row:last-child { border-bottom: 1px solid var(--line); }
-.craft__row:hover { background: var(--paper-2); }
+/* the studio vignette sits over photo and band alike, so the
+   two shade together and the photo's rectangle disappears */
+.stage::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  box-shadow: inset 0 0 120px rgba(122, 84, 46, 0.15);
+  pointer-events: none;
+}
 
-.craft__num {
+.stage--days .stage__inner {
+  max-width: 1160px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: minmax(280px, 420px) 1fr;
+  gap: clamp(1.5rem, 4vw, 4rem);
+  align-items: end;
+  padding: clamp(2rem, 4vw, 3.5rem) var(--gutter) 0;
+}
+
+.stage__faith { position: relative; align-self: end; }
+.stage__faith img { width: 100%; height: auto; display: block; }
+/* melt the photo's left/right/top edges into the band */
+.stage__faith::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(90deg, var(--stage-bg) 0%, transparent 16%),
+    linear-gradient(270deg, var(--stage-bg) 0%, transparent 16%),
+    linear-gradient(180deg, var(--stage-bg) 0%, transparent 9%);
+}
+
+/* ── the floating cards ── */
+
+.fcards {
+  list-style: none;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(1.2rem, 2.5vw, 2rem);
+  padding: 1rem 0 clamp(2rem, 4vw, 3.5rem);
+  align-content: center;
+}
+
+/* the wrapper levitates on its own period; the card inside
+   holds its resting tilt so the two motions compose */
+.fcard-w { animation: levitate var(--dur, 9s) ease-in-out var(--del, 0s) infinite; }
+@keyframes levitate { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+
+.fcard {
+  background: var(--card);
+  border: 1px solid var(--line);
+  padding: 1.5rem 1.4rem 1.4rem;
+  transform: rotate(var(--rot, 0deg));
+  box-shadow:
+    0 2px 6px rgba(94, 62, 34, 0.1),
+    0 22px 38px -14px rgba(94, 62, 34, 0.38);
+  transition: transform 0.45s var(--ease), box-shadow 0.45s ease;
+}
+.fcard:hover {
+  transform: rotate(0deg) translateY(-5px);
+  box-shadow:
+    0 4px 10px rgba(94, 62, 34, 0.12),
+    0 34px 52px -16px rgba(94, 62, 34, 0.45);
+}
+
+.fcard__num {
   font-family: var(--font-display);
   font-style: italic;
-  font-size: 1.35rem;
+  font-size: 1.3rem;
   color: var(--accent);
+  float: right;
+  line-height: 1;
 }
 
-/* rest on a row and its little drawing sketches itself in */
+.fcard h3 {
+  font-family: var(--font-body);
+  font-weight: 400;
+  font-size: 1.08rem;
+  letter-spacing: 0.01em;
+  margin: 0.8rem 0 0.4rem;
+}
+.fcard p { color: var(--ink-soft); font-size: 0.92rem; font-weight: 300; }
+
+/* the card's sketch draws itself in on hover */
 .craft__sketch {
   width: 26px; height: 26px;
-  align-self: center;
   color: var(--accent);
 }
 .craft__sketch path {
@@ -503,23 +576,15 @@ h2 {
   stroke-dashoffset: 1;
   transition: stroke-dashoffset 0.45s ease-in;
 }
-.craft__sketch path:nth-child(2) { transition-delay: 0s; }
-.craft__sketch path:nth-child(3) { transition-delay: 0s; }
-.craft__row:hover .craft__sketch path {
+.fcard:hover .craft__sketch path {
   stroke-dashoffset: 0;
   transition: stroke-dashoffset 0.7s var(--ease);
 }
-.craft__row:hover .craft__sketch path:nth-child(2) { transition-delay: 0.35s; }
-.craft__row:hover .craft__sketch path:nth-child(3) { transition-delay: 0.6s; }
+.fcard:hover .craft__sketch path:nth-child(2) { transition-delay: 0.35s; }
+.fcard:hover .craft__sketch path:nth-child(3) { transition-delay: 0.6s; }
 
-.craft__row h3 {
-  font-family: var(--font-body);
-  font-weight: 400;
-  font-size: 1.1rem;
-  letter-spacing: 0.01em;
-}
-
-.craft__row p { color: var(--ink-soft); font-size: 0.95rem; font-weight: 300; }
+/* naptime: the studio dims with the lights */
+:root[data-theme="dark"] .stage { filter: brightness(0.85) saturate(0.96); }
 
 /* ── moments ────────────────────────────────────────────── */
 
@@ -648,15 +713,66 @@ h2 {
   100% { box-shadow: 0 0 0 9px transparent; }
 }
 
-/* ── hello ──────────────────────────────────────────────── */
+/* ── hello: she points, and the card is what she's pointing at ── */
 
-.section--hello { padding-bottom: 7rem; }
+.section--hello { padding-bottom: 0; }
 
-.hello { text-align: center; padding: 2.4rem 0 1rem; }
-.hello h2 { margin-bottom: 0.9rem; }
-.hello > p { color: var(--ink-soft); margin-bottom: 2.3rem; font-weight: 300; }
-.hello .btn--fill { font-size: 0.95rem; padding: 1em 2.3em; }
-.hello__alt { margin-top: 1.5rem; font-size: 0.9rem; color: var(--ink-soft); font-weight: 300; }
+.stage--hello {
+  --stage-bg: #caa176;
+  padding: clamp(2rem, 4vw, 3rem) var(--gutter) clamp(3rem, 5vw, 4.5rem);
+}
+
+.hello-scene {
+  position: relative;
+  max-width: 560px;
+  margin: 0 auto;
+  /* room for the platform card hanging below the photo */
+  padding-bottom: 150px;
+}
+
+.hello-scene__faith {
+  width: 100%;
+  height: auto;
+  display: block;
+  /* melt the photo into the band on every side but the bottom */
+  -webkit-mask-image: linear-gradient(180deg, transparent 0, #000 10%);
+  mask-image: linear-gradient(180deg, transparent 0, #000 10%);
+}
+.hello-scene::before {
+  content: "";
+  position: absolute;
+  z-index: 1; /* above the photo, below the card */
+  top: 0; left: 0; right: 0;
+  bottom: 150px;
+  background:
+    linear-gradient(90deg, var(--stage-bg) 0%, transparent 16%),
+    linear-gradient(270deg, var(--stage-bg) 0%, transparent 16%);
+  pointer-events: none;
+}
+
+/* the platform: overlaps her shins exactly where the mockup's
+   white box sat, levitating gently */
+.hello-card {
+  position: absolute;
+  z-index: 2;
+  left: 50%;
+  bottom: 0;
+  transform: translateX(-50%);
+  width: min(480px, calc(100vw - 2 * var(--gutter)));
+  text-align: center;
+  padding: 1.7rem 1.8rem 1.6rem;
+  animation: levitate-x 10.7s ease-in-out infinite;
+}
+@keyframes levitate-x {
+  0%, 100% { transform: translateX(-50%) translateY(0); }
+  50% { transform: translateX(-50%) translateY(-7px); }
+}
+.hello-card:hover { transform: translateX(-50%) translateY(-5px); }
+
+.hello-card h2 { margin-bottom: 0.5rem; font-size: clamp(1.5rem, 2.6vw, 1.9rem); }
+.hello-card > p { color: var(--ink-soft); margin-bottom: 1.2rem; font-weight: 300; font-size: 0.95rem; }
+.hello-card .btn--fill { font-size: 0.92rem; padding: 0.9em 2.1em; }
+.hello__alt { margin-top: 1rem; font-size: 0.86rem; color: var(--ink-soft); font-weight: 300; }
 .hello__alt a { color: var(--ink); text-decoration: underline; text-decoration-color: var(--line); text-underline-offset: 3px; transition: text-decoration-color 0.25s ease; }
 .hello__alt a:hover { text-decoration-color: var(--accent); }
 
@@ -703,9 +819,15 @@ h2 {
   .about__copy h2, .about__copy p { margin-left: auto; margin-right: auto; }
   .specs { justify-content: center; }
   .moments { grid-template-columns: repeat(2, 1fr); grid-auto-rows: 150px; }
-  .craft__row { grid-template-columns: 2.4rem 1fr; }
-  .craft__row p { grid-column: 2; }
+  .stage--days .stage__inner {
+    grid-template-columns: 1fr;
+    justify-items: center;
+  }
+  .stage--days .stage__faith { max-width: 300px; }
+  .fcards { grid-template-columns: 1fr; width: 100%; max-width: 480px; padding-top: 0; }
   .craft__sketch { display: none; } /* the sketches are a hover reward — pointless on touch */
+  .fcard h3 { margin-top: 0.2rem; }
+  .hello-scene { max-width: 380px; }
   .section__rail::before, .section__rail::after { display: none; }
   .idea { grid-template-columns: 2.2rem 1fr; }
   .idea .chip { grid-column: 2; justify-self: start; }
@@ -738,7 +860,8 @@ h2 {
   .craft__sketch path {
     transition-duration: 0.01ms; transition-delay: 0ms;
   }
-  .pulse-dot, .band::before, .idea:hover .chip__dot { animation: none; }
+  .pulse-dot, .band::before, .idea:hover .chip__dot,
+  .fcard-w, .hello-card { animation: none; }
   .theme-flip { transition: none; }
   .tile img { transform: none; }
 }

@@ -120,45 +120,61 @@
         <span class="coord coord--note">Monday through Friday</span>
       </div>
       <h2 class="section__title t-fx" style="--d:0">The everyday work of growing small <span class="uword">humans<svg class="uline" viewBox="0 0 100 10" preserveAspectRatio="none" aria-hidden="true"><path d="M2 6 C 30 9, 68 3, 98 6.5" pathLength="1"/></svg></span></h2>
-      <!-- each row hides a little line drawing that sketches
-           itself in when you rest on it -->
-      <ol class="craft">
-        <li class="craft__row t-fx" style="--d:1">
-          <span class="craft__num" aria-hidden="true">Ⅰ</span>
-          <h3>Early literacy &amp; kindergarten readiness</h3>
-          <p>Letters, numbers, and listening — so the leap to kindergarten feels exciting instead of scary.</p>
-          <svg class="craft__sketch" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <path pathLength="1" d="M12 6c-1.8-1.4-4.4-2-8-2v14c3.6 0 6.2.6 8 2 1.8-1.4 4.4-2 8-2V4c-3.6 0-6.2.6-8 2z"/>
-            <path pathLength="1" d="M12 6v14"/>
-          </svg>
-        </li>
-        <li class="craft__row t-fx" style="--d:2">
-          <span class="craft__num" aria-hidden="true">Ⅱ</span>
-          <h3>Social-emotional learning</h3>
-          <p>Naming big feelings, sharing the good blocks, and practicing what it takes to be a kind friend.</p>
-          <svg class="craft__sketch" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <path pathLength="1" d="M12 20s-7.5-4.6-9.3-9C1.3 7.5 3.6 4.5 6.7 4.5c2 0 3.7 1.2 5.3 3 1.6-1.8 3.3-3 5.3-3 3.1 0 5.4 3 4 6.5-1.8 4.4-9.3 9-9.3 9z"/>
-          </svg>
-        </li>
-        <li class="craft__row t-fx" style="--d:3">
-          <span class="craft__num" aria-hidden="true">Ⅲ</span>
-          <h3>Curriculum &amp; classroom design</h3>
-          <p>Thoughtful centers, seasonal themes, and routines that give little ones the structure they secretly love.</p>
-          <svg class="craft__sketch" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <path pathLength="1" d="M3.5 12.5h8v8h-8z"/>
-            <path pathLength="1" d="M12.5 12.5h8v8h-8z"/>
-            <path pathLength="1" d="M8 3.5h8v8H8z"/>
-          </svg>
-        </li>
-        <li class="craft__row t-fx" style="--d:4">
-          <span class="craft__num" aria-hidden="true">Ⅳ</span>
-          <h3>Family partnership</h3>
-          <p>Conferences, updates, and honest conversations — parents on the team, always.</p>
-          <svg class="craft__sketch" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <path pathLength="1" d="M21 11.5c0 4.1-4 7.5-9 7.5-1 0-2-.14-2.9-.4L4 20l1.2-3.6C3.8 15.1 3 13.4 3 11.5 3 7.4 7 4 12 4s9 3.4 9 7.5z"/>
-          </svg>
-        </li>
-      </ol>
+      <!-- the stage: Faith presents, and the things she does float
+           in the space she's gesturing at — each card levitating on
+           its own period, each hiding a sketch that draws on hover -->
+      <div class="stage stage--days t-fx" style="--d:1">
+        <div class="stage__inner">
+          <figure class="stage__faith">
+            <img src="images/faith-present.jpg" alt="Faith, presenting" width="1000" height="1250">
+          </figure>
+          <ol class="fcards">
+            <li class="fcard-w" style="--dur: 8.6s; --del: -2.1s; --rot: -1.6deg; --d:1">
+              <article class="fcard">
+                <span class="fcard__num" aria-hidden="true">Ⅰ</span>
+                <svg class="craft__sketch" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path pathLength="1" d="M12 6c-1.8-1.4-4.4-2-8-2v14c3.6 0 6.2.6 8 2 1.8-1.4 4.4-2 8-2V4c-3.6 0-6.2.6-8 2z"/>
+                  <path pathLength="1" d="M12 6v14"/>
+                </svg>
+                <h3>Early literacy &amp; kindergarten readiness</h3>
+                <p>Letters, numbers, and listening — so the leap to kindergarten feels exciting instead of scary.</p>
+              </article>
+            </li>
+            <li class="fcard-w" style="--dur: 11.3s; --del: -5.4s; --rot: 1.3deg; --d:2">
+              <article class="fcard">
+                <span class="fcard__num" aria-hidden="true">Ⅱ</span>
+                <svg class="craft__sketch" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path pathLength="1" d="M12 20s-7.5-4.6-9.3-9C1.3 7.5 3.6 4.5 6.7 4.5c2 0 3.7 1.2 5.3 3 1.6-1.8 3.3-3 5.3-3 3.1 0 5.4 3 4 6.5-1.8 4.4-9.3 9-9.3 9z"/>
+                </svg>
+                <h3>Social-emotional learning</h3>
+                <p>Naming big feelings, sharing the good blocks, and practicing what it takes to be a kind friend.</p>
+              </article>
+            </li>
+            <li class="fcard-w" style="--dur: 9.7s; --del: -3.3s; --rot: 1.8deg; --d:3">
+              <article class="fcard">
+                <span class="fcard__num" aria-hidden="true">Ⅲ</span>
+                <svg class="craft__sketch" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path pathLength="1" d="M3.5 12.5h8v8h-8z"/>
+                  <path pathLength="1" d="M12.5 12.5h8v8h-8z"/>
+                  <path pathLength="1" d="M8 3.5h8v8H8z"/>
+                </svg>
+                <h3>Curriculum &amp; classroom design</h3>
+                <p>Thoughtful centers, seasonal themes, and routines that give little ones the structure they secretly love.</p>
+              </article>
+            </li>
+            <li class="fcard-w" style="--dur: 12.9s; --del: -7.8s; --rot: -1.1deg; --d:4">
+              <article class="fcard">
+                <span class="fcard__num" aria-hidden="true">Ⅳ</span>
+                <svg class="craft__sketch" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path pathLength="1" d="M21 11.5c0 4.1-4 7.5-9 7.5-1 0-2-.14-2.9-.4L4 20l1.2-3.6C3.8 15.1 3 13.4 3 11.5 3 7.4 7 4 12 4s9 3.4 9 7.5z"/>
+                </svg>
+                <h3>Family partnership</h3>
+                <p>Conferences, updates, and honest conversations — parents on the team, always.</p>
+              </article>
+            </li>
+          </ol>
+        </div>
+      </div>
     </section>
 
     <!-- ── 03 Moments — the image band ── -->
@@ -252,12 +268,19 @@
         <span class="coord">05 — Hello</span>
         <span class="coord coord--note">Answered after naptime</span>
       </div>
-      <div class="hello">
-        <h2 class="t-fx" style="--d:0">Come say <span class="uword">hello<svg class="uline" viewBox="0 0 100 10" preserveAspectRatio="none" aria-hidden="true"><path d="M2 6.5 C 26 9.5, 74 3, 98 6" pathLength="1"/></svg></span></h2>
-        <p class="t-fx" style="--d:1">For families, schools, and fellow teachers.</p>
-        <!-- ✏️ Swap in Faith's real email (both href and the text below) -->
-        <a class="btn btn--fill t-fx" style="--d:2" href="mailto:hello@faithudall.com">Email Faith</a>
-        <p class="hello__alt t-fx" style="--d:3">or write to <a href="mailto:hello@faithudall.com">hello@faithudall.com</a></p>
+      <!-- the mockup, made real: she points down, and the thing
+           she's pointing at is the card that floats beneath her -->
+      <div class="stage stage--hello t-fx" style="--d:0">
+        <div class="hello-scene">
+          <img class="hello-scene__faith" src="images/faith-point.jpg" alt="Faith, pointing down at the card below" width="900" height="979">
+          <div class="fcard hello-card">
+            <h2>Come say <span class="uword">hello<svg class="uline" viewBox="0 0 100 10" preserveAspectRatio="none" aria-hidden="true"><path d="M2 6.5 C 26 9.5, 74 3, 98 6" pathLength="1"/></svg></span></h2>
+            <p>For families, schools, and fellow teachers.</p>
+            <!-- ✏️ Swap in Faith's real email (both href and the text below) -->
+            <a class="btn btn--fill" href="mailto:hello@faithudall.com">Email Faith</a>
+            <p class="hello__alt">or write to <a href="mailto:hello@faithudall.com">hello@faithudall.com</a></p>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -265,7 +288,7 @@
 
   <footer class="foot">
     <p>© <span id="year">2026</span> Faith Udall <i>·</i> Preschool &amp; TK</p>
-    <span class="foot__ver" aria-hidden="true">v4.1</span>
+    <span class="foot__ver" aria-hidden="true">v4.2</span>
   </footer>
 
   <script src="main.js" defer></script>

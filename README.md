@@ -18,6 +18,7 @@ The crafted details, all honoring `prefers-reduced-motion`:
 - **Someday** keeps a soft tinted band with a dot grid drifting slow as weather.
 - **Moments** photos drift a few pixels of parallax as you scroll and warm from grayscale to colour on hover.
 - **The theme flip** sweeps the new theme in as a circle from the toggle you clicked (View Transitions API, falls back gracefully). "Naptime" accents are re-picked, remembered per visitor, and applied on load with no flash.
+- **The stages** — two full-bleed bands in the studio photos' own warm tan (`--stage-bg`, sampled from each photo, edges melted with gradient fades so Faith stands in the page, not in a rectangle). In Days she presents toward the four things she does, floating as levitating cards on desynchronized periods; in Hello she points down at the platform card holding the email button — the photo direction decides the layout.
 
 The Moments section is built for photos: swap any `tile--soon` placeholder for a `<figure class="tile"><img …></figure>` (add `tile--tall` / `tile--wide` to change its footprint). Photos there and in About render in a soft grayscale that warms to full colour on hover.
 
