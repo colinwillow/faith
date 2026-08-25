@@ -102,10 +102,12 @@
         turn += wrap(Math.atan2(H / 2 - L.y, W / 2 - L.x) - L.h) * 0.06;
       }
 
-      // the clear zone is an ellipse over the central text column,
+      // the clear zone is an ellipse over the text block — left of
+      // centre on the wide layout, centred when the hero stacks —
       // so the line frames the words instead of crossing them
-      const cdx = L.x - W / 2, cdy = L.y - H / 2;
-      const nd = Math.hypot(cdx / (W * 0.42), cdy / (H * 0.34));
+      const tx = W > 700 ? W * 0.33 : W * 0.5;
+      const cdx = L.x - tx, cdy = L.y - H * 0.44;
+      const nd = Math.hypot(cdx / (W * 0.36), cdy / (H * 0.34));
       if (nd < 1 && nd > 0.01) {
         turn += wrap(Math.atan2(cdy, cdx) - L.h) * 0.05 * (1 - nd);
       }

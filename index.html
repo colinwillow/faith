@@ -61,20 +61,29 @@
          cursor when you're near. ── -->
     <section class="hero">
       <canvas id="thread" class="thread" aria-hidden="true"></canvas>
-      <p class="hero__eyebrow t-fx" style="--d:0">Preschool · Transitional Kindergarten</p>
-      <h1 class="hero__mark t-fx" style="--d:1">
-        <img src="images/wordmark.png" alt="Faith Udall" width="1196" height="151">
-      </h1>
-      <span class="hero__rule t-fx" style="--d:2" aria-hidden="true"></span>
-      <p class="hero__lede t-fx" style="--d:3">
-        Early childhood educator — helping small people feel big things:
-        curiosity, confidence, and the nerve to try again.
-      </p>
-      <div class="hero__actions t-fx" style="--d:4">
-        <a class="btn btn--fill" href="#hello">Say hello</a>
-        <a class="btn btn--ghost" href="#someday">What's next</a>
+      <div class="hero__inner">
+        <div class="hero__copy">
+          <p class="hero__eyebrow t-fx" style="--d:0">Preschool · Transitional Kindergarten</p>
+          <h1 class="hero__mark t-fx" style="--d:1">
+            <img src="images/wordmark.png" alt="Faith Udall" width="1196" height="151">
+          </h1>
+          <span class="hero__rule t-fx" style="--d:2" aria-hidden="true"></span>
+          <p class="hero__lede t-fx" style="--d:3">
+            Early childhood educator — helping small people feel big things:
+            curiosity, confidence, and the nerve to try again.
+          </p>
+          <div class="hero__actions t-fx" style="--d:4">
+            <a class="btn btn--fill" href="#hello">Say hello</a>
+            <a class="btn btn--ghost" href="#someday">What's next</a>
+          </div>
+        </div>
+        <!-- she welcomes you in, and the little status card floats
+             right where she's gesturing -->
+        <figure class="hero__faith t-fx" style="--d:2">
+          <img src="images/faith-welcome.jpg" alt="Faith, welcoming you in" width="760" height="1356">
+          <p class="fcard hero-chip"><span class="pulse-dot" aria-hidden="true"></span>Currently teaching preschool &amp; TK</p>
+        </figure>
       </div>
-      <p class="hero__status t-fx" style="--d:5"><span class="pulse-dot" aria-hidden="true"></span>Currently teaching preschool &amp; TK</p>
     </section>
 
     <!-- ── 01 About ── -->
@@ -288,7 +297,7 @@
 
   <footer class="foot">
     <p>© <span id="year">2026</span> Faith Udall <i>·</i> Preschool &amp; TK</p>
-    <span class="foot__ver" aria-hidden="true">v4.2</span>
+    <span class="foot__ver" aria-hidden="true">v4.3</span>
   </footer>
 
   <script src="main.js" defer></script>
