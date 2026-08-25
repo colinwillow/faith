@@ -6,11 +6,18 @@ Live at [faithudall.com](https://faithudall.com) via GitHub Pages (the `CNAME` f
 
 ## The design
 
-Thin, sleek, editorial. Warm off-white and near-black carry the whole page, with one quiet muted accent used only for underlines and small status marks — never a fill, never a block of colour. There are no cards or drop shadows; everything is drawn with a 1px hairline instead of a box. Headings and the wordmark are set in Italiana (a thin, high-contrast serif); body copy and UI are Jost (light, geometric); tiny tracked labels are DM Mono. Motion is a quiet fade and a short rise — no bounce, no overshoot.
+Thin, sleek, editorial — with quiet craft layered on top. Warm off-white and near-black carry the whole page, a muted terracotta accent does the underlines and lines, and a muted sage (`--accent-2`) marks status dots only. No cards or drop shadows; everything is drawn with a 1px hairline. Headings and the wordmark are set in Italiana (a thin, high-contrast serif); body copy and UI are Jost (light, geometric); tiny tracked labels are DM Mono. A whisper of SVG paper grain sits over everything.
 
-The one section that gets to be a little warmer is **Someday** — a soft tinted band instead of a hairline list, and italic headings.
+The crafted details, all honoring `prefers-reduced-motion`:
 
-There's a "naptime" dark theme (the little half-circle in the nav) with re-picked accents, remembered per visitor — switching is instant with no light-to-dark flash, even for a returning dark-theme visitor.
+- **The thread** — two thin lines (terracotta + faint ink) wander the hero forever like a pencil that never lifts, steering around the text column and drifting toward your cursor when it's near.
+- **Drawn underlines** — one key word per heading gets a hand-swept stroke that draws itself in on reveal.
+- **Sketches** — each row in Days hides a line drawing that sketches itself in on hover.
+- **Print marks** — registration `+` marks at the ends of every section rail; a reading-progress hairline at the top of the page.
+- **The wordmark unveils** left-to-right on load; the eyebrow arrives one letter at a time.
+- **Someday** keeps a soft tinted band with a dot grid drifting slow as weather.
+- **Moments** photos drift a few pixels of parallax as you scroll and warm from grayscale to colour on hover.
+- **The theme flip** sweeps the new theme in as a circle from the toggle you clicked (View Transitions API, falls back gracefully). "Naptime" accents are re-picked, remembered per visitor, and applied on load with no flash.
 
 The Moments section is built for photos: swap any `tile--soon` placeholder for a `<figure class="tile"><img …></figure>` (add `tile--tall` / `tile--wide` to change its footprint). Photos there and in About render in a soft grayscale that warms to full colour on hover.
 

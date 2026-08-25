@@ -24,6 +24,7 @@
   --line: rgba(21, 18, 15, 0.14);
   --line-soft: rgba(21, 18, 15, 0.08);
   --accent: #a8674c;
+  --accent-2: #7d8b6e; /* muted sage — status marks only */
   --accent-wash: rgba(168, 103, 76, 0.09);
   --on-ink: #faf6f3;
 
@@ -47,9 +48,17 @@
   --line: rgba(247, 241, 234, 0.15);
   --line-soft: rgba(247, 241, 234, 0.09);
   --accent: #c98363;
+  --accent-2: #96a687;
   --accent-wash: rgba(201, 131, 99, 0.12);
   --on-ink: #15120f;
 }
+
+/* the theme flip sweeps in as a circle from the toggle — the
+   snapshots' default cross-fade is disabled so only the clip
+   animation (set in main.js) plays */
+::view-transition-old(root), ::view-transition-new(root) { animation: none; mix-blend-mode: normal; }
+::view-transition-old(root) { z-index: 1; }
+::view-transition-new(root) { z-index: 2; }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -72,6 +81,31 @@ body {
 }
 
 ::selection { background: var(--accent); color: var(--on-ink); }
+
+/* a whisper of paper grain over everything — the difference
+   between "rendered" and "printed" */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  pointer-events: none;
+  opacity: 0.05;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
+}
+:root[data-theme="dark"] body::after { opacity: 0.07; }
+
+/* reading progress: one hairline, growing */
+.progress {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%;
+  height: 2px;
+  background: var(--accent);
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+  z-index: 40;
+}
 
 img { max-width: 100%; display: block; }
 
@@ -150,6 +184,7 @@ h2 {
 .theme-flip { flex: none; }
 
 .chrome__nav a {
+  position: relative;
   font-family: var(--font-body);
   font-weight: 300;
   font-size: 0.92rem;
@@ -158,7 +193,18 @@ h2 {
   color: var(--ink-soft);
   transition: color 0.25s ease;
 }
+.chrome__nav a::after {
+  content: "";
+  position: absolute;
+  left: 0; right: 0; bottom: -3px;
+  height: 1px;
+  background: var(--accent);
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+  transition: transform 0.35s var(--ease);
+}
 .chrome__nav a:hover { color: var(--ink); }
+.chrome__nav a:hover::after { transform: scaleX(1); }
 
 .theme-flip {
   width: 15px; height: 15px;
@@ -184,6 +230,16 @@ h2 {
   padding: calc(88px + env(safe-area-inset-top)) var(--gutter) 3rem;
 }
 
+/* the thread wanders behind the hero's content */
+.thread {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  pointer-events: none;
+}
+
 .hero__eyebrow {
   font-family: var(--mono);
   font-size: 0.64rem;
@@ -194,13 +250,24 @@ h2 {
   margin-bottom: 1.6rem;
 }
 
+/* main.js splits the eyebrow into letters that arrive one by one */
+.hero__eyebrow .ltr {
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  transition-delay: calc(var(--l) * 28ms + 0.2s);
+}
+.in .hero__eyebrow .ltr { opacity: 1; }
+
 .hero__mark {
   width: min(640px, 88vw);
 }
 .hero__mark img {
   width: 100%; height: auto;
   filter: invert(0);
+  clip-path: inset(-2% 100% -2% 0); /* unveiled left-to-right on reveal */
+  transition: clip-path 1.4s var(--ease) 0.35s;
 }
+.in .hero__mark img { clip-path: inset(-2% 0% -2% 0); }
 :root[data-theme="dark"] .hero__mark img { filter: invert(1); }
 
 .hero__rule {
@@ -246,10 +313,32 @@ h2 {
 .pulse-dot {
   width: 5px; height: 5px;
   border-radius: 50%;
-  background: var(--accent);
+  background: var(--accent-2);
   animation: pulse 2.6s ease-in-out infinite;
 }
 @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+
+/* ── the drawn underline: one key word per heading gets a thin
+   hand-swept stroke that draws itself in on reveal ── */
+
+.uword { position: relative; white-space: nowrap; }
+.uline {
+  position: absolute;
+  left: -2%; bottom: -0.1em;
+  width: 104%; height: 0.24em;
+  overflow: visible;
+}
+.uline path {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 1.6px;
+  stroke-linecap: round;
+  vector-effect: non-scaling-stroke;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  transition: stroke-dashoffset 1s var(--ease) 0.55s;
+}
+.in .uline path { stroke-dashoffset: 0; }
 
 /* ── buttons — thin outline, or thin ink fill, never both ── */
 
@@ -282,6 +371,7 @@ h2 {
 }
 
 .section__rail {
+  position: relative;
   display: flex;
   justify-content: space-between;
   align-items: baseline;
@@ -290,6 +380,21 @@ h2 {
   padding-top: 0.9rem;
   margin-bottom: 3rem;
 }
+
+/* registration marks at the rail's ends — a nod to print proofs */
+.section__rail::before, .section__rail::after {
+  content: "+";
+  position: absolute;
+  top: -0.62em;
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  color: var(--ink-soft);
+  opacity: 0;
+  transition: opacity 0.8s ease 0.5s;
+}
+.section__rail::before { left: -1.1em; }
+.section__rail::after { right: -1.1em; }
+.in .section__rail::before, .in .section__rail::after { opacity: 0.55; }
 
 .coord {
   font-family: var(--mono);
@@ -321,9 +426,11 @@ h2 {
   border-style: solid;
   border-width: 0;
   z-index: 1;
+  transition: width 0.45s var(--ease), height 0.45s var(--ease), border-color 0.45s ease;
 }
 .corner--tl { top: -10px; left: -10px; border-top-width: 1px; border-left-width: 1px; }
 .corner--br { bottom: -10px; right: -10px; border-bottom-width: 1px; border-right-width: 1px; }
+.about__portrait:hover .corner { width: 44px; height: 44px; border-color: var(--accent); }
 
 .about__copy h2 { margin-bottom: 1.3rem; max-width: 13em; }
 .about__copy p { color: var(--ink-soft); max-width: 32em; font-weight: 300; }
@@ -345,8 +452,13 @@ h2 {
   padding: 0.9rem 1.3rem;
   display: grid;
   gap: 0.3rem;
+  align-content: start;
   flex: 1 1 140px;
+  transition: background 0.3s ease;
 }
+.spec:hover { background: var(--paper-2); }
+.spec--wide { flex: 2 1 240px; }
+.spec__sub { font-size: 0.8rem; color: var(--ink-soft); font-weight: 300; }
 
 .spec__key {
   font-family: var(--mono);
@@ -363,7 +475,7 @@ h2 {
 
 .craft__row {
   display: grid;
-  grid-template-columns: 3.4rem 1fr 1.3fr;
+  grid-template-columns: 3.4rem 1fr 1.3fr 34px;
   gap: 1.6rem;
   align-items: baseline;
   border-top: 1px solid var(--line);
@@ -379,6 +491,26 @@ h2 {
   font-size: 1.35rem;
   color: var(--accent);
 }
+
+/* rest on a row and its little drawing sketches itself in */
+.craft__sketch {
+  width: 26px; height: 26px;
+  align-self: center;
+  color: var(--accent);
+}
+.craft__sketch path {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  transition: stroke-dashoffset 0.45s ease-in;
+}
+.craft__sketch path:nth-child(2) { transition-delay: 0s; }
+.craft__sketch path:nth-child(3) { transition-delay: 0s; }
+.craft__row:hover .craft__sketch path {
+  stroke-dashoffset: 0;
+  transition: stroke-dashoffset 0.7s var(--ease);
+}
+.craft__row:hover .craft__sketch path:nth-child(2) { transition-delay: 0.35s; }
+.craft__row:hover .craft__sketch path:nth-child(3) { transition-delay: 0.6s; }
 
 .craft__row h3 {
   font-family: var(--font-body);
@@ -412,6 +544,9 @@ h2 {
   width: 100%; height: 100%; object-fit: cover;
   filter: grayscale(0.35) contrast(1.02);
   transition: filter 0.5s ease;
+  /* --p is a slow scroll parallax set by main.js; the slight
+     scale keeps edges covered while the image drifts */
+  transform: translateY(var(--p, 0px)) scale(1.07);
 }
 .tile:hover img { filter: grayscale(0); }
 
@@ -440,10 +575,25 @@ h2 {
 /* ── someday — the one section with a little more warmth ── */
 
 .band {
+  position: relative;
+  overflow: hidden;
   background: var(--accent-wash);
   border: 1px solid var(--line);
   padding: clamp(2.4rem, 5vw, 3.8rem);
 }
+.band > * { position: relative; }
+
+/* a faint dot grid drifting diagonally, slow as weather */
+.band::before {
+  content: "";
+  position: absolute;
+  inset: -52px;
+  background-image: radial-gradient(var(--accent) 1px, transparent 1.4px);
+  background-size: 26px 26px;
+  opacity: 0.12;
+  animation: band-drift 30s linear infinite;
+}
+@keyframes band-drift { to { background-position: 52px 26px; } }
 
 .band__title {
   font-weight: 400;
@@ -491,7 +641,12 @@ h2 {
   color: var(--accent);
   white-space: nowrap;
 }
-.chip__dot { width: 5px; height: 5px; border-radius: 50%; background: var(--accent); }
+.chip__dot { width: 5px; height: 5px; border-radius: 50%; background: var(--accent-2); }
+.idea:hover .chip__dot { animation: ping 0.9s var(--ease); }
+@keyframes ping {
+  0% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--accent-2) 55%, transparent); }
+  100% { box-shadow: 0 0 0 9px transparent; }
+}
 
 /* ── hello ──────────────────────────────────────────────── */
 
@@ -550,6 +705,8 @@ h2 {
   .moments { grid-template-columns: repeat(2, 1fr); grid-auto-rows: 150px; }
   .craft__row { grid-template-columns: 2.4rem 1fr; }
   .craft__row p { grid-column: 2; }
+  .craft__sketch { display: none; } /* the sketches are a hover reward — pointless on touch */
+  .section__rail::before, .section__rail::after { display: none; }
   .idea { grid-template-columns: 2.2rem 1fr; }
   .idea .chip { grid-column: 2; justify-self: start; }
   .section { padding: 4rem var(--gutter) 3.4rem; }
@@ -565,11 +722,23 @@ h2 {
   .coord--note { display: none; }
 }
 
+/* ── dev: ?fast snapshots everything in its settled state ── */
+
+:root.fastfx *, :root.fastfx *::before, :root.fastfx *::after {
+  transition-duration: 0.01ms !important;
+  transition-delay: 0ms !important;
+}
+
 /* ── reduced motion: everything, instantly ──────────────── */
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
-  .t-fx, .hero__rule::after { transition-duration: 0.01ms; transition-delay: 0ms; }
-  .pulse-dot { animation: none; }
+  .t-fx, .hero__rule::after, .uline path, .hero__mark img,
+  .hero__eyebrow .ltr, .section__rail::before, .section__rail::after,
+  .craft__sketch path {
+    transition-duration: 0.01ms; transition-delay: 0ms;
+  }
+  .pulse-dot, .band::before, .idea:hover .chip__dot { animation: none; }
   .theme-flip { transition: none; }
+  .tile img { transform: none; }
 }
