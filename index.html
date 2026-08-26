@@ -55,30 +55,20 @@
 
   <main id="top">
 
-    <!-- ── Hero ── a studio stage. Slow dashed arc sets turn in
-         the corners; a wireframe apple spins above her open palm
-         with orbit rings at their own tilts and speeds; and a
-         hairline comet circles the wordmark's frame. ── -->
+    <!-- ── Hero ── a studio stage. Behind everything, a faint
+         dot-grid plane breathes with a slow sine field; a small
+         glossy 3D apple turns above her open palm; and the dots
+         in the wordmark's A's pulse softly terracotta. ── -->
     <section class="hero">
-      <svg class="hero-arc hero-arc--tl" viewBox="0 0 600 600" aria-hidden="true">
-        <circle cx="0" cy="0" r="200" pathLength="100"/>
-        <circle cx="0" cy="0" r="330" pathLength="100"/>
-        <circle cx="0" cy="0" r="465" pathLength="100"/>
-      </svg>
-      <svg class="hero-arc hero-arc--br" viewBox="0 0 600 600" aria-hidden="true">
-        <circle cx="600" cy="600" r="220" pathLength="100"/>
-        <circle cx="600" cy="600" r="360" pathLength="100"/>
-        <circle cx="600" cy="600" r="500" pathLength="100"/>
-      </svg>
+      <canvas id="field" class="field" aria-hidden="true"></canvas>
       <div class="hero__inner">
         <div class="hero__copy">
           <p class="hero__eyebrow t-fx" style="--d:0">Preschool · Transitional Kindergarten</p>
           <h1 class="hero__mark t-fx" style="--d:1">
             <img src="images/wordmark.png" alt="Faith Udall" width="1196" height="151">
-            <svg class="mark-orbit" aria-hidden="true">
-              <rect class="mark-orbit__base" x="1" y="1" rx="3" pathLength="100"/>
-              <rect class="mark-orbit__comet" x="1" y="1" rx="3" pathLength="100"/>
-            </svg>
+            <!-- the letterforms' own dots, brought to life -->
+            <span class="mark-dot" style="--x: 12.91%; --y: 62.5%; --del: 0s" aria-hidden="true"></span>
+            <span class="mark-dot" style="--x: 77.87%; --y: 62.6%; --del: -2.3s" aria-hidden="true"></span>
           </h1>
           <span class="hero__rule t-fx" style="--d:2" aria-hidden="true"></span>
           <p class="hero__lede t-fx" style="--d:3">
@@ -90,11 +80,15 @@
             <a class="btn btn--ghost" href="#someday">What's next</a>
           </div>
         </div>
-        <!-- she welcomes you in; the apple spins above her open
-             palm, and the status card floats at her other hand -->
+        <!-- she welcomes you in; a small glossy apple turns above
+             her open palm, and the status card floats at her other
+             hand -->
         <figure class="hero__faith t-fx" style="--d:2">
           <img src="images/faith-welcome.jpg" alt="Faith, welcoming you in" width="760" height="1356">
-          <canvas id="apple" class="apple" aria-hidden="true"></canvas>
+          <div class="apple-wrap" aria-hidden="true">
+            <canvas id="apple"></canvas>
+            <span class="apple-shadow"></span>
+          </div>
           <p class="fcard hero-chip"><span class="pulse-dot" aria-hidden="true"></span>Currently teaching preschool &amp; TK</p>
         </figure>
       </div>
@@ -311,9 +305,13 @@
 
   <footer class="foot">
     <p>© <span id="year">2026</span> Faith Udall <i>·</i> Preschool &amp; TK</p>
-    <span class="foot__ver" aria-hidden="true">v4.4</span>
+    <span class="foot__ver" aria-hidden="true">v4.5</span>
   </footer>
 
+  <script type="importmap">
+    { "imports": { "three": "./vendor/three.module.min.js" } }
+  </script>
   <script src="main.js" defer></script>
+  <script type="module" src="apple3d.js"></script>
 </body>
 </html>

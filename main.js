@@ -1,13 +1,12 @@
 /* ════════════════════════════════════════════════════════════
    faithudall.com — the quiet machinery.
 
-   The showpiece is the apple: a wireframe apple spinning above
-   Faith's open palm, ringed by two orbits carrying little beads
-   at their own tilts and speeds — drawn by hand onto a canvas,
-   no 3D library. It spins up a little when your cursor comes
-   near. Everything else is small — a progress hairline, letters
-   that arrive one by one, a slow parallax, and a theme that
-   changes as a circle sweeping out from the half-moon toggle.
+   In the hero: a faint dot-grid plane breathes with a slow sine
+   swell (the field), and the dots in the wordmark's letterforms
+   pulse terracotta. The 3D apple lives in apple3d.js. Everything
+   else is small — a progress hairline, letters that arrive one
+   by one, a slow parallax, and a theme that changes as a circle
+   sweeping out from the half-moon toggle.
    ════════════════════════════════════════════════════════════ */
 
 (() => {
@@ -38,176 +37,53 @@
   } catch (e) { /* private mode: theme just doesn't persist */ }
   requestAnimationFrame(() => requestAnimationFrame(() => root.classList.remove("no-transition")));
 
-  /* ── the apple ──────────────────────────────────────────
-     a lathe wireframe spun from an apple profile, projected by
-     hand: meridians and parallels fade with depth, a stem and a
-     terracotta leaf ride the spin, and two tilted orbit rings
-     carry beads around it. It hovers, bobs, and casts a soft
-     little shadow toward her palm. */
+  /* ── the field ──────────────────────────────────────────
+     a grid of small squares behind the hero, each lifted and
+     brightened by a slow layered sine swell — a plane breathing,
+     drawn faint enough to read as texture, not content. */
 
-  const apple = (() => {
-    const canvas = document.getElementById("apple");
-    if (!canvas) return { redraw() {} };
+  const field = (() => {
+    const canvas = document.getElementById("field");
+    if (!canvas) return;
     const ctx = canvas.getContext("2d");
+    const hero = canvas.parentElement;
 
-    let S = 0, DPR = 1, CX = 0, CY = 0, R = 0;
-    let raf = 0, visible = true, lastT = 0;
-    let theta = 0.7, bobT = 0, speed = 1, speedTarget = 1;
-
-    const css = (n) => getComputedStyle(root).getPropertyValue(n).trim();
-    const INK = "42, 33, 24"; // the band is tan in every theme
-
-    // apple silhouette: (y, radius) anchors from bottom to top —
-    // squat, wide-shouldered, and doubling back at the top so the
-    // stem sits in a real dimple — resampled with Catmull-Rom.
-    // y is pre-squashed: apples are wider than they are tall.
-    const SQUASH = 0.78;
-    const ANCHORS = [
-      [-0.92, 0.30], [-0.80, 0.62], [-0.45, 0.92], [-0.05, 1.02],
-      [0.35, 0.99], [0.66, 0.84], [0.88, 0.52], [0.94, 0.26], [0.80, 0.10],
-    ].map(([y, r]) => [y * SQUASH, r]);
-    const PROFILE = [];
-    (function resample() {
-      const P = ANCHORS;
-      const cr = (p0, p1, p2, p3, t) => {
-        const t2 = t * t, t3 = t2 * t;
-        return 0.5 * ((2 * p1) + (-p0 + p2) * t +
-          (2 * p0 - 5 * p1 + 4 * p2 - p3) * t2 +
-          (-p0 + 3 * p1 - 3 * p2 + p3) * t3);
-      };
-      for (let i = 0; i < P.length - 1; i++) {
-        const p0 = P[Math.max(0, i - 1)], p1 = P[i], p2 = P[i + 1], p3 = P[Math.min(P.length - 1, i + 2)];
-        for (let s = 0; s < 4; s++) {
-          const t = s / 4;
-          PROFILE.push([cr(p0[0], p1[0], p2[0], p3[0], t), cr(p0[1], p1[1], p2[1], p3[1], t)]);
-        }
-      }
-      PROFILE.push(P[P.length - 1].slice());
-    })();
+    let W = 0, H = 0, DPR = 1;
+    let raf = 0, visible = true, lastT = 0, t = 0;
+    const SP = 34; // grid spacing
 
     function size() {
-      const r = canvas.getBoundingClientRect();
+      const r = hero.getBoundingClientRect();
       if (r.width < 8) return false;
       DPR = Math.min(2, devicePixelRatio || 1);
-      S = Math.round(r.width);
-      canvas.width = S * DPR; canvas.height = Math.round(r.height) * DPR;
+      W = Math.round(r.width); H = Math.round(r.height);
+      canvas.width = W * DPR; canvas.height = H * DPR;
       ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
-      CX = S / 2; CY = r.height * 0.47;
-      R = S * 0.215;
       return true;
     }
 
-    // rotate around Y by a, tilt around X, orthographic project
-    function proj(x, y, z, a, tilt, cy) {
-      const xr = x * Math.cos(a) + z * Math.sin(a);
-      const zr = -x * Math.sin(a) + z * Math.cos(a);
-      const yr = y * Math.cos(tilt) - zr * Math.sin(tilt);
-      const zd = y * Math.sin(tilt) + zr * Math.cos(tilt);
-      return [CX + xr * R, cy - yr * R, zd];
-    }
-
-    function seg(p, q, base, width, color) {
-      const a = base * (0.32 + 0.68 * Math.max(0, Math.min(1, ((p[2] + q[2]) / 2 + 1.1) / 2.2)));
-      ctx.strokeStyle = `rgba(${color}, ${a.toFixed(3)})`;
-      ctx.lineWidth = width;
-      ctx.beginPath();
-      ctx.moveTo(p[0], p[1]);
-      ctx.lineTo(q[0], q[1]);
-      ctx.stroke();
-    }
-
-    function draw(now) {
-      const h = canvas.height / DPR;
-      ctx.clearRect(0, 0, S, h);
-      const bob = Math.sin(bobT * 0.8) * 4;
-      const cy = CY + bob;
-      const tilt = -0.42 + 0.05 * Math.sin(bobT * 0.5);
-      const accent = css("--accent") || "#a8674c";
-      const ACC = accent.startsWith("#")
-        ? `${parseInt(accent.slice(1, 3), 16)}, ${parseInt(accent.slice(3, 5), 16)}, ${parseInt(accent.slice(5, 7), 16)}`
-        : "168, 103, 76";
-
-      // soft shadow falling toward her palm
-      const sg = ctx.createRadialGradient(CX, h * 0.9, 2, CX, h * 0.9, R * 1.1);
-      sg.addColorStop(0, `rgba(${INK}, ${0.16 - bob * 0.008})`);
-      sg.addColorStop(1, "rgba(0,0,0,0)");
-      ctx.save();
-      ctx.translate(CX, h * 0.9);
-      ctx.scale(1, 0.22);
-      ctx.translate(-CX, -h * 0.9);
-      ctx.fillStyle = sg;
-      ctx.fillRect(0, 0, S, h * 2);
-      ctx.restore();
-
-      // orbit rings with beads — different tilts, speeds, directions
-      const rings = [
-        { rr: 1.75, tilt: 0.5, roll: 0.9, sp: 0.6, dir: 1, color: ACC, alpha: 0.5 },
-        { rr: 2.05, tilt: -0.35, roll: -0.5, sp: 0.37, dir: -1, color: INK, alpha: 0.34 },
-      ];
-      for (const g of rings) {
-        const pts = [];
-        for (let i = 0; i <= 60; i++) {
-          const a = (i / 60) * Math.PI * 2;
-          let x = Math.cos(a) * g.rr, z = Math.sin(a) * g.rr, y = 0;
-          let y2 = y * Math.cos(g.roll) - x * Math.sin(g.roll) * 0.35;
-          pts.push(proj(x, y2, z, theta * g.sp * g.dir + g.dir, g.tilt, cy));
-        }
-        for (let i = 0; i < 60; i++) seg(pts[i], pts[i + 1], g.alpha, 1, g.color);
-        // the bead
-        const ba = bobT * g.sp * g.dir * 1.6 + g.dir * 2;
-        let bx = Math.cos(ba) * g.rr, bz = Math.sin(ba) * g.rr;
-        const bp = proj(bx, -bx * Math.sin(g.roll) * 0.35, bz, theta * g.sp * g.dir + g.dir, g.tilt, cy);
-        const bA = 0.35 + 0.55 * Math.max(0, Math.min(1, (bp[2] + 1.1) / 2.2));
-        ctx.fillStyle = `rgba(${g.color}, ${bA.toFixed(3)})`;
-        ctx.beginPath();
-        ctx.arc(bp[0], bp[1], 2.4, 0, Math.PI * 2);
-        ctx.fill();
-      }
-
-      // meridians
-      const M = 10;
-      for (let m = 0; m < M; m++) {
-        const phi = (m / M) * Math.PI * 2;
-        let prev = null;
-        for (const [y, r] of PROFILE) {
-          const p = proj(Math.cos(phi) * r, y, Math.sin(phi) * r, theta, tilt, cy);
-          if (prev) seg(prev, p, 0.6, 1, INK);
-          prev = p;
+    function draw() {
+      ctx.clearRect(0, 0, W, H);
+      for (let gy = 0; gy * SP < H + SP; gy++) {
+        for (let gx = 0; gx * SP < W + SP; gx++) {
+          const x0 = gx * SP + (gy % 2) * (SP / 2); // offset rows: a woven grid
+          const y0 = gy * SP;
+          // the swell: two incommensurate waves and a slow diagonal
+          const z =
+            Math.sin(x0 * 0.011 + t * 0.5) * Math.cos(y0 * 0.009 - t * 0.34) +
+            0.5 * Math.sin((x0 + y0) * 0.006 + t * 0.21);
+          const n = (z + 1.5) / 3; // 0..1
+          const x = x0 + z * 2.2;
+          const y = y0 + z * 5.5;
+          const s = 1.2 + n * 1.1;
+          const accent = (gx * 7 + gy * 13) % 29 === 0;
+          const a = 0.055 + n * (accent ? 0.16 : 0.115);
+          ctx.fillStyle = accent
+            ? `rgba(168, 103, 76, ${a.toFixed(3)})`
+            : `rgba(90, 66, 42, ${a.toFixed(3)})`;
+          ctx.fillRect(x, y, s, s);
         }
       }
-      // parallels
-      for (const t of [0.16, 0.38, 0.6, 0.8]) {
-        const idx = Math.min(PROFILE.length - 1, Math.round(t * PROFILE.length));
-        const [y, r] = PROFILE[idx];
-        let prev = null;
-        for (let i = 0; i <= 48; i++) {
-          const a = (i / 48) * Math.PI * 2;
-          const p = proj(Math.cos(a) * r, y, Math.sin(a) * r, theta, tilt, cy);
-          if (prev) seg(prev, p, 0.42, 1, INK);
-          prev = p;
-        }
-      }
-
-      // stem — rides the spin, rising out of the dimple
-      const stem = [[0, 0.62], [0.02, 0.86], [0.09, 1.04], [0.19, 1.16]];
-      let prev = null;
-      for (const [x, y] of stem) {
-        const p = proj(x, y, 0, theta, tilt, cy);
-        if (prev) seg(prev, p, 0.9, 2, INK);
-        prev = p;
-      }
-      // leaf — a small terracotta stroke off the stem tip
-      const tip = proj(0.19, 1.16, 0, theta, tilt, cy);
-      const end = proj(0.85, 1.44, 0.12, theta, tilt, cy);
-      const midA = proj(0.46, 1.52, 0.06, theta, tilt, cy);
-      const midB = proj(0.56, 1.1, 0.06, theta, tilt, cy);
-      ctx.strokeStyle = `rgba(${ACC}, 0.8)`;
-      ctx.lineWidth = 1.3;
-      ctx.beginPath();
-      ctx.moveTo(tip[0], tip[1]);
-      ctx.quadraticCurveTo(midA[0], midA[1], end[0], end[1]);
-      ctx.quadraticCurveTo(midB[0], midB[1], tip[0], tip[1]);
-      ctx.stroke();
     }
 
     function frame(now) {
@@ -215,10 +91,8 @@
       if (!visible) return;
       const dt = Math.min(50, now - (lastT || now)) / 1000;
       lastT = now;
-      speed += (speedTarget - speed) * 0.06;
-      theta += 0.4 * speed * dt;
-      bobT += dt * speed;
-      draw(now);
+      t += dt * 0.55;
+      draw();
       raf = requestAnimationFrame(frame);
     }
 
@@ -228,16 +102,10 @@
 
     function boot() {
       if (!size()) { setTimeout(boot, 100); return; }
-      if (REDUCED || FAST) { draw(0); return; }
+      t = 2.4;
+      if (REDUCED || FAST) { draw(); return; }
       start();
     }
-
-    // curiosity: the apple spins up a touch when the cursor is near
-    addEventListener("pointermove", (e) => {
-      const r = canvas.getBoundingClientRect();
-      const d = Math.hypot(e.clientX - (r.left + r.width / 2), e.clientY - (r.top + r.height / 2));
-      speedTarget = d < 260 ? 2.4 : 1;
-    }, { passive: true });
 
     new IntersectionObserver(([e]) => {
       visible = e.isIntersecting;
@@ -247,12 +115,10 @@
     let rT;
     addEventListener("resize", () => {
       clearTimeout(rT);
-      rT = setTimeout(() => { if (size() && (REDUCED || FAST)) draw(0); }, 150);
+      rT = setTimeout(() => { if (size() && (REDUCED || FAST)) draw(); }, 150);
     });
 
     boot();
-
-    return { redraw() { if (REDUCED || FAST) draw(0); } };
   })();
 
   /* ── theme flip: a circle sweeping out from the toggle ──── */
@@ -262,7 +128,6 @@
     const next = root.dataset.theme === "dark" ? "light" : "dark";
     const change = () => {
       setTheme(next);
-      apple.redraw();
       try { localStorage.setItem(THEME_KEY, next); } catch (err) {}
     };
     if (REDUCED || !document.startViewTransition) { change(); return; }
