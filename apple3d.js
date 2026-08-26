@@ -75,13 +75,34 @@ if (canvas) {
   stem.rotation.z = -0.14;
   group.add(stem);
 
-  // three leaves off the stem, each at its own angle and size —
-  // geometry and material shared between them
-  const leafShape = new THREE.Shape();
-  leafShape.moveTo(0, 0);
-  leafShape.quadraticCurveTo(0.16, 0.11, 0.32, 0.02);
-  leafShape.quadraticCurveTo(0.16, -0.055, 0, 0);
-  const leafGeo = new THREE.ShapeGeometry(leafShape, 12);
+  /* a curled leaf, built as a little parametric sheet: it tapers
+     to a point, cups across its width and arches along its length,
+     and gets real normals so the light rolls over the curl */
+  function leafGeometry(len = 0.34, halfW = 0.078, curl = 0.042, arch = 0.055) {
+    const nU = 16, nV = 8, pos = [], uv = [], idx = [];
+    for (let i = 0; i <= nU; i++) {
+      const u = i / nU;
+      const w = halfW * Math.pow(Math.sin(Math.PI * Math.pow(u, 0.8)), 0.75);
+      for (let j = 0; j <= nV; j++) {
+        const v = (j / nV) * 2 - 1;
+        pos.push(u * len, v * w, curl * v * v + arch * Math.sin(Math.PI * u));
+        uv.push(u, (v + 1) / 2);
+      }
+    }
+    for (let i = 0; i < nU; i++) {
+      for (let j = 0; j < nV; j++) {
+        const a = i * (nV + 1) + j, b = a + nV + 1;
+        idx.push(a, b, a + 1, a + 1, b, b + 1);
+      }
+    }
+    const g = new THREE.BufferGeometry();
+    g.setAttribute("position", new THREE.Float32BufferAttribute(pos, 3));
+    g.setAttribute("uv", new THREE.Float32BufferAttribute(uv, 2));
+    g.setIndex(idx);
+    g.computeVertexNormals();
+    return g;
+  }
+  const leafGeo = leafGeometry();
   const leafMat = new THREE.MeshStandardMaterial({
     color: 0x5e7c42, roughness: 0.62, side: THREE.DoubleSide,
   });
@@ -89,9 +110,9 @@ if (canvas) {
   // it keeps its face to the camera at every point of the spin
   // instead of vanishing edge-on the way an upright plane would
   [
-    { s: 2.0, yaw: 0.35, y: 0.585, tilt: 0.42 },
-    { s: 1.6, yaw: 2.55, y: 0.545, tilt: 0.3 },
-    { s: 1.3, yaw: 4.45, y: 0.515, tilt: 0.5 },
+    { s: 2.25, yaw: 0.35, y: 0.585, tilt: 0.42 },
+    { s: 1.85, yaw: 2.55, y: 0.545, tilt: 0.28 },
+    { s: 1.5, yaw: 4.45, y: 0.515, tilt: 0.5 },
   ].forEach(({ s, yaw, y, tilt }) => {
     const pivot = new THREE.Group();
     pivot.position.set(0.03, y, 0);
@@ -104,26 +125,27 @@ if (canvas) {
     group.add(pivot);
   });
 
-  group.rotation.x = 0.16; // a touch of top view, so the dimple reads
-
   const shadow = document.querySelector(".apple-shadow");
 
   let raf = 0, visible = true, lastT = 0, t = 0;
-  let speed = 1, speedTarget = 1;
-  // it shies away from the cursor and eases back when you leave
-  let fleeX = 0, fleeY = 0, fleeTX = 0, fleeTY = 0;
+  let swayX = 0;
+  /* the scroll lag: the page moves, the apple doesn't quite keep
+     up, then springs after it and overshoots before it settles.
+     under-damped on purpose (ζ ≈ 0.58) — that's the wobble. */
+  let lagY = 0, lagV = 0, lastScroll = scrollY;
+  const SPRING = 62, DAMP = 9;
 
   function render() { renderer.render(scene, camera); }
 
   /* the shadow is cast on her palm, not stuck to the apple: the
      higher the apple floats, the smaller and fainter it gets, and
-     it slides along under the apple as it dodges */
+     it slides along underneath as she sways */
   function castShadow() {
     if (!shadow) return;
-    const lift = Math.max(-1, Math.min(1, group.position.y / 0.42));
+    const lift = Math.max(-1, Math.min(1, group.position.y / 0.55));
     shadow.style.transform =
-      `translateX(${(fleeX * 78).toFixed(1)}px) scale(${(1 - lift * 0.3).toFixed(3)})`;
-    shadow.style.opacity = (0.92 - lift * 0.38).toFixed(3);
+      `translateX(${(swayX * 74).toFixed(1)}px) scale(${(1 - lift * 0.34).toFixed(3)})`;
+    shadow.style.opacity = (0.95 - lift * 0.45).toFixed(3);
   }
 
   function frame(now) {
@@ -131,14 +153,22 @@ if (canvas) {
     if (!visible) return;
     const dt = Math.min(50, now - (lastT || now)) / 1000;
     lastT = now;
-    speed += (speedTarget - speed) * 0.06;
-    t += dt * speed;
-    fleeX += (fleeTX - fleeX) * 0.08;
-    fleeY += (fleeTY - fleeY) * 0.08;
-    group.rotation.y += 0.45 * speed * dt;
-    group.rotation.z = Math.sin(t * 0.75) * 0.07; // a lazy tumble
-    group.position.x = fleeX;
-    group.position.y = Math.sin(t * 1.6) * 0.05 + fleeY;
+    t += dt;
+
+    // spring the scroll lag back to rest
+    lagV += (-SPRING * lagY - DAMP * lagV) * dt;
+    lagY += lagV * dt;
+
+    // a steady turn around its own centre
+    group.rotation.y += 0.55 * dt;
+    // and a slow side-wave: it rocks like something hanging in air
+    const sway = Math.sin(t * 0.8);
+    group.rotation.z = sway * 0.17;
+    group.rotation.x = 0.16 + Math.sin(t * 0.58) * 0.1;
+    swayX = sway * 0.1;
+    group.position.x = swayX;
+    group.position.y = Math.sin(t * 1.1) * 0.2 + lagY;
+
     castShadow();
     render();
     raf = requestAnimationFrame(frame);
@@ -156,27 +186,23 @@ if (canvas) {
   });
 
   if (STATIC) {
-    group.rotation.y = 0.7;
+    group.rotation.set(0.16, 0.7, 0);
     castShadow();
     render();
   } else {
     start();
 
-    // it dodges away from your cursor — and spins up while it does
-    addEventListener("pointermove", (e) => {
-      const r = canvas.getBoundingClientRect();
-      const dx = e.clientX - (r.left + r.width / 2);
-      const dy = e.clientY - (r.top + r.height / 2);
-      const d = Math.hypot(dx, dy);
-      const R = 230;
-      if (d < R && d > 0.5) {
-        const push = (1 - d / R) * 0.5;
-        fleeTX = -(dx / d) * push;          // screen x and world x agree
-        fleeTY = (dy / d) * push * 0.75;    // screen y is flipped in world space
-        speedTarget = 2.2;
-      } else {
-        fleeTX = 0; fleeTY = 0; speedTarget = 1;
+    /* every scroll shoves the apple the other way — it falls
+       behind the page, then chases its place and overshoots */
+    addEventListener("scroll", () => {
+      const y = scrollY;
+      // only while it's on screen — otherwise the impulse would
+      // pile up unseen and snap the moment it scrolled back in
+      if (visible) {
+        lagV -= (y - lastScroll) * 0.03;
+        lagV = Math.max(-9, Math.min(9, lagV));
       }
+      lastScroll = y;
     }, { passive: true });
 
     new IntersectionObserver(([e]) => {
