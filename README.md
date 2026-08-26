@@ -11,7 +11,8 @@ Thin, sleek, editorial — with quiet craft layered on top. Warm off-white and n
 The crafted details, all honoring `prefers-reduced-motion`:
 
 - **The apple** — a real shaded 3D apple (three.js, vendored in `vendor/`; lathe-built in code, glossy clearcoat red, stem dimple, stem and three leaves on yaw pivots so they never vanish edge-on) turns and bobs above Faith's open palm in the hero. It dodges away from your cursor and eases back, and `apple3d.js` drives the CSS shadow on her palm from the real bob height — higher float, smaller and fainter shadow — so it reads as genuinely in the air.
-- **Set dressing** — dashed arc sets turn slowly in the hero's corners, and a hairline comet circles the wordmark's frame to pull the eye to the name.
+- **The field** — a faint offset dot-grid across the hero, every square lifted and brightened by a slow layered sine swell: a plane deforming topologically, quiet enough to read as texture.
+- **Letter accents** — the dots the wordmark's A's already carry, located per-pixel in the artwork, overlaid in terracotta and breathing on offset phases.
 - **Drawn underlines** — one key word per heading gets a hand-swept stroke that draws itself in on reveal.
 - **Sketches** — each row in Days hides a line drawing that sketches itself in on hover.
 - **Print marks** — registration `+` marks at the ends of every section rail; a reading-progress hairline at the top of the page.
@@ -44,7 +45,9 @@ Plain HTML + CSS + one vanilla JS file. No build step, no frameworks. Edit, comm
 | --- | --- |
 | `index.html` | All content and structure, with `<!-- ✏️ -->` comments marking spots to personalize |
 | `styles.css` | All styling — the full palette lives in the `:root` block at the top (light) and the `[data-theme="dark"]` block (naptime) |
-| `main.js` | Theme toggle and scroll-triggered section reveals |
+| `main.js` | The hero field, theme toggle, scroll reveals, progress hairline and parallax |
+| `apple3d.js` | The 3D apple (ES module; imports three from the import map in `index.html`) |
+| `vendor/` | three.js (module + core) and RoomEnvironment, vendored so there's still no build step |
 | `CNAME` | Points GitHub Pages at faithudall.com — leave it alone |
 | `images/` | The wordmark, monogram, portrait, and all generated icon sizes |
 | `site.webmanifest` | Makes "Add to Home Screen" behave like an app named "Faith" |
