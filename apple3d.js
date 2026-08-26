@@ -15,11 +15,18 @@ if (canvas) {
   const FAST = /[?&]fast/.test(location.search);
   const STATIC = REDUCED || FAST;
 
-  const SIZE = 150; // render size; CSS scales the canvas responsively
   const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
   renderer.setPixelRatio(Math.min(2, devicePixelRatio || 1));
-  renderer.setSize(SIZE, SIZE, false);
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
+
+  // the render buffer tracks the CSS box, so desktop and mobile
+  // each get exactly the resolution they display at
+  function resize() {
+    const w = canvas.clientWidth || 76;
+    const h = canvas.clientHeight || 76;
+    renderer.setSize(w, h, false);
+  }
+  resize();
 
   const scene = new THREE.Scene();
   const camera = new THREE.PerspectiveCamera(32, 1, 0.1, 20);
@@ -82,9 +89,9 @@ if (canvas) {
   // it keeps its face to the camera at every point of the spin
   // instead of vanishing edge-on the way an upright plane would
   [
-    { s: 1.15, yaw: 0.35, y: 0.585, tilt: 0.42 },
-    { s: 0.9, yaw: 2.55, y: 0.545, tilt: 0.3 },
-    { s: 0.72, yaw: 4.45, y: 0.515, tilt: 0.5 },
+    { s: 2.0, yaw: 0.35, y: 0.585, tilt: 0.42 },
+    { s: 1.6, yaw: 2.55, y: 0.545, tilt: 0.3 },
+    { s: 1.3, yaw: 4.45, y: 0.515, tilt: 0.5 },
   ].forEach(({ s, yaw, y, tilt }) => {
     const pivot = new THREE.Group();
     pivot.position.set(0.03, y, 0);
@@ -140,6 +147,13 @@ if (canvas) {
   function start() {
     if (!raf && visible && !STATIC) { lastT = 0; raf = requestAnimationFrame(frame); }
   }
+
+  // the CSS box changes at the mobile breakpoint and on rotate
+  let rT;
+  addEventListener("resize", () => {
+    clearTimeout(rT);
+    rT = setTimeout(() => { resize(); render(); }, 150);
+  });
 
   if (STATIC) {
     group.rotation.y = 0.7;
