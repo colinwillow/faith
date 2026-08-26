@@ -10,7 +10,8 @@ Thin, sleek, editorial — with quiet craft layered on top. Warm off-white and n
 
 The crafted details, all honoring `prefers-reduced-motion`:
 
-- **The thread** — two thin lines (terracotta + faint ink) wander the hero forever like a pencil that never lifts, steering around the text column and drifting toward your cursor when it's near.
+- **The apple** — a wireframe apple drawn and projected by hand on a canvas (no 3D library) spins above Faith's open palm in the hero, ringed by two orbits carrying beads at their own tilts and speeds, with a soft shadow beneath. It spins up when your cursor comes near.
+- **Set dressing** — dashed arc sets turn slowly in the hero's corners, and a hairline comet circles the wordmark's frame to pull the eye to the name.
 - **Drawn underlines** — one key word per heading gets a hand-swept stroke that draws itself in on reveal.
 - **Sketches** — each row in Days hides a line drawing that sketches itself in on hover.
 - **Print marks** — registration `+` marks at the ends of every section rail; a reading-progress hairline at the top of the page.
@@ -33,7 +34,7 @@ Two pieces of artwork Colin designed, both processed into transparent PNGs:
 | `images/monogram-square.png` | Monogram pre-centered on a transparent square, for anywhere a square asset is handy |
 | `images/icon-*.png`, `favicon.ico` | Generated from the monogram, composited onto the site's off-white — the favicon and iOS home-screen icon |
 
-Both `.chrome__logo` and `.hero__mark img` are CSS-inverted in naptime (`filter: invert(1)`), so the near-black artwork reads as near-white on the dark ground without needing separate light/dark image files.
+`.chrome__logo` is CSS-inverted in naptime (`filter: invert(1)`), so the near-black mark reads as near-white on the dark ground without needing separate light/dark image files. The hero wordmark stays ink in both themes — its tan stage band doesn't change with the theme.
 
 ## How it's built
 
