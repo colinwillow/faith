@@ -10,7 +10,7 @@ Thin, sleek, editorial — with quiet craft layered on top. Warm off-white and n
 
 The crafted details, all honoring `prefers-reduced-motion`:
 
-- **The apple** — a wireframe apple drawn and projected by hand on a canvas (no 3D library) spins above Faith's open palm in the hero, ringed by two orbits carrying beads at their own tilts and speeds, with a soft shadow beneath. It spins up when your cursor comes near.
+- **The apple** — a real shaded 3D apple (three.js, vendored in `vendor/`; lathe-built in code, glossy clearcoat red, stem dimple, stem and three leaves on yaw pivots so they never vanish edge-on) turns and bobs above Faith's open palm in the hero. It dodges away from your cursor and eases back, and `apple3d.js` drives the CSS shadow on her palm from the real bob height — higher float, smaller and fainter shadow — so it reads as genuinely in the air.
 - **Set dressing** — dashed arc sets turn slowly in the hero's corners, and a hairline comet circles the wordmark's frame to pull the eye to the name.
 - **Drawn underlines** — one key word per heading gets a hand-swept stroke that draws itself in on reveal.
 - **Sketches** — each row in Days hides a line drawing that sketches itself in on hover.

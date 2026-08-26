@@ -325,20 +325,19 @@ h2 {
   pointer-events: none;
 }
 .apple-wrap canvas { width: 100%; height: 100%; display: block; }
+/* the shadow it casts down on her palm — apple3d.js drives its
+   scale and opacity from the real bob height, so the apple reads
+   as floating well above the surface rather than resting on it */
 .apple-shadow {
   position: absolute;
   left: 50%;
-  top: calc(100% - 4px);
-  width: 62px;
-  height: 12px;
+  top: calc(100% + 10px);
+  width: 74px;
+  height: 15px;
   translate: -50% 0;
   border-radius: 50%;
-  background: radial-gradient(closest-side, rgba(90, 60, 32, 0.28), rgba(90, 60, 32, 0) 78%);
-  animation: shadow-breathe 3.93s ease-in-out infinite;
-}
-@keyframes shadow-breathe {
-  0%, 100% { transform: scaleX(1); opacity: 1; }
-  50% { transform: scaleX(0.86); opacity: 0.72; }
+  background: radial-gradient(closest-side, rgba(88, 58, 30, 0.3), rgba(88, 58, 30, 0) 76%);
+  filter: blur(1.5px);
 }
 
 /* the dots the letterforms already carry, warmed to terracotta
