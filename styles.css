@@ -517,20 +517,6 @@ h2 {
 
 .section__title { max-width: 19em; margin-bottom: 3rem; font-weight: 400; }
 
-/* the pencil twirling at the end of the Days heading — sized in
-   em so it tracks the headline at every breakpoint, and kept on
-   the same line as the word it follows */
-.tail { white-space: nowrap; }
-.pencil {
-  display: inline-block;
-  width: 1.55em;
-  height: 1.55em;
-  margin-left: 0.12em;
-  vertical-align: -0.38em;
-  pointer-events: none;
-}
-.pencil canvas { width: 100%; height: 100%; display: block; }
-
 /* ── about ──────────────────────────────────────────────── */
 
 .about {
@@ -636,6 +622,35 @@ h2 {
     linear-gradient(90deg, var(--stage-bg) 0%, transparent 16%),
     linear-gradient(270deg, var(--stage-bg) 0%, transparent 16%),
     linear-gradient(180deg, var(--stage-bg) 0%, transparent 9%);
+}
+
+/* the pencil twirling above her open palm — same trick as the
+   apple: the canvas floats, and a separate ellipse is the shadow
+   it drops onto her hand. above the edge-melting gradient. */
+.pencil-wrap {
+  position: absolute;
+  z-index: 2;
+  width: 18.5%;
+  aspect-ratio: 1;
+  left: 55.5%;
+  top: 13%;
+  translate: -50% 0;
+  pointer-events: none;
+}
+.pencil-wrap canvas { width: 100%; height: 100%; display: block; }
+.pencil-shadow {
+  /* offset in % of the wrap, not px — the wrap is sized off the
+     photo's width, so the shadow keeps landing on her palm at
+     every breakpoint */
+  position: absolute;
+  left: 50%;
+  top: 119%;
+  width: 62%;
+  height: 15%;
+  translate: -50% 0;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(88, 56, 28, 0.5) 0%, rgba(88, 56, 28, 0.4) 42%, rgba(88, 56, 28, 0) 80%);
+  filter: blur(1.5px);
 }
 
 /* ── the floating cards ── */

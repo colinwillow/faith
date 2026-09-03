@@ -1,19 +1,20 @@
 /* ════════════════════════════════════════════════════════════
-   The pencil — a small hexagonal pencil twirling beside the
-   Days heading. Built from six lathe-free primitives (graphite,
+   The pencil — a small hexagonal pencil floating above Faith's
+   open palm in Days. Built from five primitives (graphite point,
    sharpened wood, hex barrel, ferrule, eraser), tipped over and
    spun around the vertical so it turns the way a pencil does
-   between two fingers, with a slow bob under it.
+   between two fingers. It bobs, rocks on a side-wave, drops a
+   shadow on her hand, and lags behind the page when you scroll.
 
    Room, lights and loop come from stage3d.js.
    ════════════════════════════════════════════════════════════ */
 
-import { createStage, driveLoop } from "./stage3d.js";
+import { createStage, driveLoop, STATIC } from "./stage3d.js";
 
 const canvas = document.getElementById("pencil");
 if (canvas) {
   const stage = createStage(canvas, {
-    camPos: [0, 0.25, 4.0],
+    camPos: [0, 0.25, 3.8],
     lookAt: [0, 0, 0],
     key: 2.3,
     fill: 0.6,
@@ -58,18 +59,55 @@ if (canvas) {
     1.835
   );
 
+  const shadow = document.querySelector(".pencil-shadow");
+  let swayX = 0;
+  /* same lag as the apple: the page moves, the pencil falls behind,
+     then springs after it and overshoots before it settles */
+  let lagY = 0, lagV = 0, lastScroll = scrollY;
+  const SPRING = 62, DAMP = 9;
+
+  function castShadow() {
+    if (!shadow) return;
+    const lift = Math.max(-1, Math.min(1, group.position.y / 0.55));
+    shadow.style.transform =
+      `translateX(${(swayX * 70).toFixed(1)}px) scale(${(1 - lift * 0.34).toFixed(3)})`;
+    shadow.style.opacity = (0.95 - lift * 0.45).toFixed(3);
+  }
+
   /* rotation order is XYZ, so z tips the pencil over first and y
      then swings that tipped axis around the vertical — a twirl,
      not a cartwheel. x adds a slow nod on top of it. */
   const TILT = 0.52;
   group.rotation.z = TILT;
 
-  driveLoop(canvas, stage, (dt, t) => {
+  const loop = driveLoop(canvas, stage, (dt, t) => {
+    lagV += (-SPRING * lagY - DAMP * lagV) * dt;
+    lagY += lagV * dt;
+
     group.rotation.y += 0.85 * dt;
     group.rotation.x = Math.sin(t * 0.7) * 0.13;
-    group.rotation.z = TILT + Math.sin(t * 0.45) * 0.07;
-    group.position.y = Math.sin(t * 1.15) * 0.07;
+    const sway = Math.sin(t * 0.75);
+    group.rotation.z = TILT + sway * 0.11;
+    swayX = sway * 0.09;
+    group.position.x = swayX;
+    group.position.y = Math.sin(t * 1.05) * 0.18 + lagY;
+
+    castShadow();
   }, () => {
     group.rotation.y = 0.9;
+    castShadow();
   });
+
+  if (!STATIC) {
+    addEventListener("scroll", () => {
+      const y = scrollY;
+      // only while it's on screen, or the impulse would pile up
+      // unseen and snap the moment it scrolled back in
+      if (loop.isVisible()) {
+        lagV -= (y - lastScroll) * 0.03;
+        lagV = Math.max(-9, Math.min(9, lagV));
+      }
+      lastScroll = y;
+    }, { passive: true });
+  }
 }

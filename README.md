@@ -11,7 +11,7 @@ Thin, sleek, editorial — with quiet craft layered on top. Warm off-white and n
 The crafted details, all honoring `prefers-reduced-motion`:
 
 - **The apple** — a real shaded 3D apple (three.js, vendored in `vendor/`; lathe-built in code, glossy clearcoat red, stem dimple, stem and three leaves on yaw pivots so they never vanish edge-on) turns and bobs above Faith's open palm in the hero. It floats on a deep bob, rocks on a slow side-wave, and turns steadily around its own centre; scrolling shoves it out of step with the page and an under-damped spring chases the page back, overshooting before it settles. `apple3d.js` drives the CSS shadow on her palm from the real bob height — higher float, smaller and fainter shadow — so it reads as genuinely in the air.
-- **The pencil** — a small hexagonal pencil (graphite point, sharpened wood, faceted ochre barrel, turned-metal ferrule, terracotta eraser) twirls at the end of the Days heading. Flat-shaded so the six facets catch the key light one at a time as it turns, with a slow nod and bob under it.
+- **The pencil** — a small hexagonal pencil (graphite point, sharpened wood, faceted ochre barrel, turned-metal ferrule, terracotta eraser) floats above Faith's open palm in Days, the way the apple does in the hero. Tipped over and spun around the vertical so it turns the way a pencil does between two fingers; flat-shaded, so the six facets catch the key light one at a time. It bobs, rocks on a side-wave, drops a shadow on her hand and lags behind the page on scroll.
 - **The field** — a faint offset dot-grid across the hero, every square lifted and brightened by a slow layered sine swell: a plane deforming topologically, quiet enough to read as texture.
 - **Letter accents** — the dots the wordmark's A's already carry, located per-pixel in the artwork, overlaid in terracotta and breathing on offset phases.
 - **Drawn underlines** — one key word per heading gets a hand-swept stroke that draws itself in on reveal.
@@ -49,7 +49,7 @@ Plain HTML + CSS + one vanilla JS file. No build step, no frameworks. Edit, comm
 | `main.js` | The hero field, theme toggle, scroll reveals, progress hairline and parallax |
 | `stage3d.js` | The shared 3D studio — renderer, camera, room reflections, light rig and the visibility-aware loop the props run on |
 | `apple3d.js` | The 3D apple (ES module; imports three from the import map in `index.html`) |
-| `pencil3d.js` | The 3D pencil beside the Days heading |
+| `pencil3d.js` | The 3D pencil floating over her palm in Days |
 | `vendor/` | three.js (module + core) and RoomEnvironment, vendored so there's still no build step |
 | `CNAME` | Points GitHub Pages at faithudall.com — leave it alone |
 | `images/` | The wordmark, monogram, portrait, and all generated icon sizes |
