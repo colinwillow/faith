@@ -1,53 +1,21 @@
 /* ════════════════════════════════════════════════════════════
    The apple — a small glossy 3D apple turning above Faith's
    open palm. Lathe-built in code (no model file), lit like the
-   studio, red with a proper stem dimple, stem, and leaf. It
-   spins up a little when the cursor comes near, renders a single
-   frame under reduced motion, and sleeps offscreen.
+   studio, red with a proper stem dimple, stem and three curled
+   leaves. It floats on a deep bob, rocks on a side-wave, turns
+   steadily around its own centre, and lags behind the page when
+   you scroll before springing back with an overshoot.
+
+   The room, the lights and the loop come from stage3d.js —
+   everything below is just this prop.
    ════════════════════════════════════════════════════════════ */
 
-import * as THREE from "three";
-import { RoomEnvironment } from "./vendor/RoomEnvironment.js";
+import { createStage, driveLoop, STATIC } from "./stage3d.js";
 
 const canvas = document.getElementById("apple");
 if (canvas) {
-  const REDUCED = matchMedia("(prefers-reduced-motion: reduce)").matches;
-  const FAST = /[?&]fast/.test(location.search);
-  const STATIC = REDUCED || FAST;
-
-  const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
-  renderer.setPixelRatio(Math.min(2, devicePixelRatio || 1));
-  renderer.toneMapping = THREE.ACESFilmicToneMapping;
-
-  // the render buffer tracks the CSS box, so desktop and mobile
-  // each get exactly the resolution they display at
-  function resize() {
-    const w = canvas.clientWidth || 76;
-    const h = canvas.clientHeight || 76;
-    renderer.setSize(w, h, false);
-  }
-  resize();
-
-  const scene = new THREE.Scene();
-  const camera = new THREE.PerspectiveCamera(32, 1, 0.1, 20);
-  camera.position.set(0, 0.85, 4.4);
-  camera.lookAt(0, 0.02, 0);
-
-  // soft neutral room reflections make the clearcoat read as glossy
-  const pmrem = new THREE.PMREMGenerator(renderer);
-  scene.environment = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
-  if ("environmentIntensity" in scene) scene.environmentIntensity = 0.55;
-
-  scene.add(new THREE.AmbientLight(0xfff2e2, 0.5));
-  const key = new THREE.DirectionalLight(0xffffff, 2.1);
-  key.position.set(2.5, 3.5, 2.5);
-  scene.add(key);
-  const fill = new THREE.DirectionalLight(0xffe6cc, 0.55);
-  fill.position.set(-2.5, 1, -1.5);
-  scene.add(fill);
-
-  const group = new THREE.Group();
-  scene.add(group);
+  const stage = createStage(canvas);
+  const { THREE, group } = stage;
 
   // the apple body: a lathe profile from bottom centre, out around
   // the cheek, and back into the stem dimple
@@ -126,16 +94,12 @@ if (canvas) {
   });
 
   const shadow = document.querySelector(".apple-shadow");
-
-  let raf = 0, visible = true, lastT = 0, t = 0;
   let swayX = 0;
   /* the scroll lag: the page moves, the apple doesn't quite keep
      up, then springs after it and overshoots before it settles.
      under-damped on purpose (ζ ≈ 0.58) — that's the wobble. */
   let lagY = 0, lagV = 0, lastScroll = scrollY;
   const SPRING = 62, DAMP = 9;
-
-  function render() { renderer.render(scene, camera); }
 
   /* the shadow is cast on her palm, not stuck to the apple: the
      higher the apple floats, the smaller and fainter it gets, and
@@ -148,13 +112,7 @@ if (canvas) {
     shadow.style.opacity = (0.95 - lift * 0.45).toFixed(3);
   }
 
-  function frame(now) {
-    raf = 0;
-    if (!visible) return;
-    const dt = Math.min(50, now - (lastT || now)) / 1000;
-    lastT = now;
-    t += dt;
-
+  const loop = driveLoop(canvas, stage, (dt, t) => {
     // spring the scroll lag back to rest
     lagV += (-SPRING * lagY - DAMP * lagV) * dt;
     lagY += lagV * dt;
@@ -170,44 +128,23 @@ if (canvas) {
     group.position.y = Math.sin(t * 1.1) * 0.2 + lagY;
 
     castShadow();
-    render();
-    raf = requestAnimationFrame(frame);
-  }
-
-  function start() {
-    if (!raf && visible && !STATIC) { lastT = 0; raf = requestAnimationFrame(frame); }
-  }
-
-  // the CSS box changes at the mobile breakpoint and on rotate
-  let rT;
-  addEventListener("resize", () => {
-    clearTimeout(rT);
-    rT = setTimeout(() => { resize(); render(); }, 150);
-  });
-
-  if (STATIC) {
+  }, () => {
     group.rotation.set(0.16, 0.7, 0);
     castShadow();
-    render();
-  } else {
-    start();
+  });
 
-    /* every scroll shoves the apple the other way — it falls
-       behind the page, then chases its place and overshoots */
+  /* every scroll shoves the apple the other way — it falls behind
+     the page, then chases its place and overshoots */
+  if (!STATIC) {
     addEventListener("scroll", () => {
       const y = scrollY;
       // only while it's on screen — otherwise the impulse would
       // pile up unseen and snap the moment it scrolled back in
-      if (visible) {
+      if (loop.isVisible()) {
         lagV -= (y - lastScroll) * 0.03;
         lagV = Math.max(-9, Math.min(9, lagV));
       }
       lastScroll = y;
     }, { passive: true });
-
-    new IntersectionObserver(([e]) => {
-      visible = e.isIntersecting;
-      if (visible) start();
-    }).observe(canvas);
   }
 }

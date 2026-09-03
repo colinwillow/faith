@@ -517,6 +517,20 @@ h2 {
 
 .section__title { max-width: 19em; margin-bottom: 3rem; font-weight: 400; }
 
+/* the pencil twirling at the end of the Days heading — sized in
+   em so it tracks the headline at every breakpoint, and kept on
+   the same line as the word it follows */
+.tail { white-space: nowrap; }
+.pencil {
+  display: inline-block;
+  width: 1.55em;
+  height: 1.55em;
+  margin-left: 0.12em;
+  vertical-align: -0.38em;
+  pointer-events: none;
+}
+.pencil canvas { width: 100%; height: 100%; display: block; }
+
 /* ── about ──────────────────────────────────────────────── */
 
 .about {
