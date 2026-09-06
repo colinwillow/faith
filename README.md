@@ -23,7 +23,7 @@ The crafted details, all honoring `prefers-reduced-motion`:
 - **The theme flip** sweeps the new theme in as a circle from the toggle you clicked (View Transitions API, falls back gracefully). "Naptime" accents are re-picked, remembered per visitor, and applied on load with no flash.
 - **The stages** — two full-bleed bands in the studio photos' own warm tan (`--stage-bg`, sampled from each photo, edges melted with gradient fades so Faith stands in the page, not in a rectangle). In Days she presents toward the four things she does, floating as levitating cards on desynchronized periods; in Hello she points down at the platform card holding the email button — the photo direction decides the layout.
 
-The Moments section is built for photos: swap any `tile--soon` placeholder for a `<figure class="tile"><img …></figure>` (add `tile--tall` / `tile--wide` to change its footprint). Photos there and in About render in a soft grayscale that warms to full colour on hover.
+The Moments section is built for photos: swap any `tile--soon` placeholder for a `<figure class="tile"><img …></figure>` (add `tile--tall` / `tile--wide` to change its footprint, and `tile--top` when the photo has something at the very top, like a heading, that the crop shouldn't eat). The grid is four columns of 170px rows — keep the spans adding up to full rows or the layout leaves holes. Photos there and in About render in a soft grayscale that warms to full colour on hover.
 
 ## The logo
 
@@ -52,7 +52,7 @@ Plain HTML + CSS + one vanilla JS file. No build step, no frameworks. Edit, comm
 | `pencil3d.js` | The 3D pencil floating over her palm in Days |
 | `vendor/` | three.js (module + core) and RoomEnvironment, vendored so there's still no build step |
 | `CNAME` | Points GitHub Pages at faithudall.com — leave it alone |
-| `images/` | The wordmark, monogram, portrait, and all generated icon sizes |
+| `images/` | The wordmark, monogram, portraits, studio photos, student work, and all generated icon sizes |
 | `site.webmanifest` | Makes "Add to Home Screen" behave like an app named "Faith" |
 | `favicon.ico` | Classic multi-size browser favicon |
 

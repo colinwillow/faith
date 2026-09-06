@@ -752,6 +752,9 @@ h2 {
   transform: translateY(var(--p, 0px)) scale(1.07);
 }
 .tile:hover img { filter: grayscale(0); }
+/* a page with a heading at the top — hold the crop high so the
+   title stays in frame */
+.tile--top img { object-position: 50% 0; }
 
 .tile--soon {
   display: grid;
