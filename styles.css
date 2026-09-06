@@ -281,12 +281,12 @@ h2 {
     linear-gradient(180deg, var(--stage-bg) 0%, transparent 9%);
 }
 
-/* the status line floats where she's gesturing */
+/* the status line, centred under the hero */
 .hero-chip {
   position: absolute;
   z-index: 1;
-  left: -26%;
-  top: 55%;
+  left: 50%;
+  bottom: 2rem;
   display: inline-flex;
   align-items: center;
   gap: 0.6em;
@@ -297,7 +297,7 @@ h2 {
   color: var(--ink-soft);
   padding: 0.85em 1.3em;
   white-space: nowrap;
-  animation: levitate 9.4s ease-in-out -3s infinite;
+  animation: levitate-x 9.4s ease-in-out -3s infinite;
 }
 
 /* the field: a faint dot-grid plane breathing with a slow sine
@@ -970,7 +970,20 @@ h2 {
   .hero__lede { margin-left: auto; margin-right: auto; }
   .hero__actions { justify-content: center; }
   .hero__faith { max-width: 270px; margin-top: 0.5rem; }
-  .hero-chip { left: -12%; top: 56%; }
+  /* on one column it drops into the flow between the buttons
+     and the photo, still centred */
+  .hero-chip {
+    position: static;
+    justify-self: center;
+    margin-top: 0.3rem;
+    max-width: 100%;
+    white-space: normal;
+    text-align: center;
+    font-size: 0.52rem;
+    letter-spacing: 0.14em;
+    animation: levitate 9.4s ease-in-out -3s infinite;
+  }
+  .hero__faith { order: 1; }
   .apple-wrap { width: 58px; height: 58px; left: 18%; top: 17%; }
   .stage--days .stage__inner {
     grid-template-columns: 1fr;
