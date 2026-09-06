@@ -1,6 +1,6 @@
 # faithudall.com
 
-Personal site for **Faith Udall** — early childhood educator (preschool & TK), and home base for whatever comes next: daycare plans, summer programs, workshops.
+Site for **Ms. U’s Kinder Studio** — Faith Udall’s 4-day transitional kindergarten micro-school in Portland, OR: one cohort of eight children who just missed the public school cutoff.
 
 Live at [faithudall.com](https://faithudall.com) via GitHub Pages (the `CNAME` file handles the custom domain — don't delete it).
 
