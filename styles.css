@@ -529,13 +529,12 @@ h2 {
   font-size: 1.06rem;
   line-height: 1.7;
 }
-/* two columns of prose once there's room for them, so a long
-   passage reads as a spread rather than a wall */
-.prose--split { max-width: 62em; }
-@media (min-width: 900px) {
-  .prose--split { columns: 2; column-gap: 3.4rem; }
-  .prose--split p { break-inside: avoid; }
-}
+/* long passages get a wider measure and more air between them,
+   never a second column — columns read as newsprint, and this
+   page is built on space, not density */
+.prose--long { max-width: 38em; }
+.prose--long p + p { margin-top: 1.5em; }
+.prose + .moments, .prose + .stage { margin-top: 4.2rem; }
 
 /* ── about ──────────────────────────────────────────────── */
 
@@ -631,6 +630,7 @@ h2 {
   padding: clamp(2rem, 4vw, 3.5rem) var(--gutter) 0;
 }
 
+.stage--solo .stage__inner { grid-template-columns: minmax(260px, 380px); justify-content: center; }
 .stage__faith { position: relative; align-self: end; }
 .stage__faith img { width: 100%; height: auto; display: block; }
 /* melt the photo's left/right/top edges into the band */
