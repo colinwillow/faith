@@ -536,6 +536,16 @@ h2 {
 .prose--long p + p { margin-top: 1.5em; }
 .prose + .moments, .prose + .stage { margin-top: 4.2rem; }
 
+/* a bare row of chips, for fragments that aren't a list row */
+.chips {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 1.6rem;
+  margin-top: 1.8rem;
+}
+.chips .chip { margin: 0; }
+
 /* ── about ──────────────────────────────────────────────── */
 
 .about {
