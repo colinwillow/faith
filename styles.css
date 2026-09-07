@@ -514,6 +514,29 @@ h2 {
 
 .section__title { max-width: 19em; margin-bottom: 3rem; font-weight: 400; }
 
+/* ── prose: long-form CV copy. A narrow measure, a generous
+   line, and real air between paragraphs — the first one sits a
+   step darker and larger so each section has a lead. ── */
+.prose { max-width: 34em; }
+.prose p {
+  color: var(--ink-soft);
+  font-weight: 300;
+  line-height: 1.78;
+}
+.prose p + p { margin-top: 1.15em; }
+.prose p:first-child {
+  color: var(--ink);
+  font-size: 1.06rem;
+  line-height: 1.7;
+}
+/* two columns of prose once there's room for them, so a long
+   passage reads as a spread rather than a wall */
+.prose--split { max-width: 62em; }
+@media (min-width: 900px) {
+  .prose--split { columns: 2; column-gap: 3.4rem; }
+  .prose--split p { break-inside: avoid; }
+}
+
 /* ── about ──────────────────────────────────────────────── */
 
 .about {
