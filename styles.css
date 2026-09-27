@@ -600,6 +600,15 @@ h2 {
 }
 .spec:hover { background: var(--paper-2); }
 .spec--wide { flex: 2 1 240px; }
+/* a row of its own — for entries whose copy needs the full measure */
+.spec--full { flex: 1 1 100%; }
+.spec__body {
+  color: var(--ink-soft);
+  font-weight: 300;
+  font-size: 0.95rem;
+  max-width: 46em;
+  margin-top: 0.15rem;
+}
 .spec__sub { font-size: 0.8rem; color: var(--ink-soft); font-weight: 300; }
 
 .spec__key {
