@@ -869,6 +869,7 @@ h2 {
   margin-bottom: 0.3rem;
 }
 .idea__body p { color: var(--ink-soft); font-size: 0.95rem; font-weight: 300; max-width: 34em; }
+.idea__body p + p { margin-top: 0.6rem; }
 
 .chip {
   display: inline-flex;
