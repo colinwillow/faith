@@ -942,6 +942,17 @@ h2 {
 }
 .hello-card:hover { transform: translateX(-50%) translateY(-5px); }
 
+/* no photo behind it — the card stands on the band by itself */
+.hello-scene--bare { max-width: 420px; padding-bottom: 0; }
+.hello-scene--bare::before { display: none; }
+.hello-scene--bare .hello-card {
+  position: static;
+  width: 100%;
+  transform: none;
+  animation: levitate 10.7s ease-in-out infinite;
+}
+.hello-scene--bare .hello-card:hover { transform: translateY(-5px); }
+
 .hello-card .chips { justify-content: center; margin: 1.1rem 0 1.4rem; }
 .hello-card h2 { margin-bottom: 0.5rem; font-size: clamp(1.5rem, 2.6vw, 1.9rem); }
 .hello-card > p { color: var(--ink-soft); margin-bottom: 1.2rem; font-weight: 300; font-size: 0.95rem; }
