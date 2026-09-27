@@ -898,8 +898,9 @@ h2 {
   position: relative;
   max-width: 560px;
   margin: 0 auto;
-  /* room for the platform card hanging below the photo */
-  padding-bottom: 150px;
+  /* room for the platform card hanging below the photo — enough
+     that the card clears her legs and she reads full-length */
+  padding-bottom: 215px;
 }
 
 .hello-scene__faith {
@@ -915,7 +916,7 @@ h2 {
   position: absolute;
   z-index: 1; /* above the photo, below the card */
   top: 0; left: 0; right: 0;
-  bottom: 150px;
+  bottom: 215px;
   background:
     linear-gradient(90deg, var(--stage-bg) 0%, transparent 16%),
     linear-gradient(270deg, var(--stage-bg) 0%, transparent 16%);
