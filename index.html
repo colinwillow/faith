@@ -2,201 +2,252 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <title>Faith Udall — Early Childhood Educator</title>
-  <meta name="description" content="Faith Udall — early childhood educator in Portland, OR, teaching transitional kindergarten.">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Faith Udall — Early Childhood Educator | Portland, OR</title>
+  <meta name="description" content="Faith Udall is an early childhood educator and lead teacher in Portland, Oregon. Curriculum vitae: experience, education, credentials, and classroom philosophy.">
+  <link rel="canonical" href="https://faithudall.com/">
 
+  <!-- Social sharing preview -->
   <meta property="og:title" content="Faith Udall — Early Childhood Educator">
-  <meta property="og:description" content="Early childhood educator in Portland, OR.">
-  <meta property="og:url" content="https://faithudall.com">
-  <meta property="og:type" content="website">
-  <meta property="og:image" content="https://faithudall.com/images/icon-512.png">
+  <meta property="og:description" content="Lead teacher and early childhood educator in Portland, Oregon.">
+  <meta property="og:url" content="https://faithudall.com/">
+  <meta property="og:type" content="profile">
+  <meta name="twitter:card" content="summary">
 
-  <!-- Icons: favicon + iOS add-to-home-screen (all generated from images/monogram.png) -->
-  <link rel="icon" href="/favicon.ico" sizes="48x48">
-  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16.png">
-  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
-  <link rel="apple-touch-icon" sizes="167x167" href="/images/apple-touch-icon-167.png">
-  <link rel="apple-touch-icon" sizes="152x152" href="/images/apple-touch-icon-152.png">
-  <meta name="apple-mobile-web-app-title" content="Faith">
-  <link rel="manifest" href="/site.webmanifest">
-  <meta name="theme-color" media="(prefers-color-scheme: light)" content="#faf6f3">
-  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#15120f">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌻</text></svg>">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Italiana&family=Jost:ital,wght@0,200..600;1,200..600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
 
-  <link rel="stylesheet" href="styles.css?v=5.4">
+  <link rel="stylesheet" href="styles.css">
+
+  <!-- Structured data: helps this page surface in search under her name -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Faith Udall",
+    "jobTitle": "Lead Teacher, Early Childhood Educator",
+    "url": "https://faithudall.com/",
+    "email": "mailto:hello@faithudall.com",
+    "address": { "@type": "PostalAddress", "addressLocality": "Portland", "addressRegion": "OR" },
+    "worksFor": { "@type": "Organization", "name": "Small Wonders School" },
+    "alumniOf": [
+      { "@type": "CollegeOrUniversity", "name": "Eastern Oregon University" },
+      { "@type": "CollegeOrUniversity", "name": "Mt. Hood Community College" }
+    ],
+    "sameAs": ["https://www.instagram.com/ms.ukinder/"]
+  }
+  </script>
 </head>
 <body>
 
-  <!-- reading progress: a single hairline that grows with the scroll -->
-  <div class="progress" aria-hidden="true"></div>
-
-  <!-- ── Chrome — floats on the page, no bar ── -->
-  <header class="chrome">
-    <a class="chrome__mark" href="#top">
-      <img class="chrome__logo" src="images/monogram.png" alt="Faith Udall" width="24" height="34">
-      <span class="chrome__word">Faith Udall</span>
-    </a>
-    <nav class="chrome__nav" aria-label="Main">
-      <span class="chrome__links">
-        <a href="#roots">Roots</a>
-        <a href="#moments">Moments</a>
-      </span>
-      <button id="theme-flip" class="theme-flip" type="button" aria-label="Switch between day and naptime themes"></button>
+  <!-- ============ Header ============ -->
+  <header class="site-header">
+    <a class="brand" href="#top">Faith&nbsp;Udall</a>
+    <nav class="site-nav" aria-label="Main">
+      <a href="#experience">Experience</a>
+      <a href="#education">Education</a>
+      <a href="#credentials">Credentials</a>
+      <a href="#philosophy">Philosophy</a>
+      <a href="#portfolio">Portfolio</a>
+      <a href="#contact" class="nav-cta">Contact</a>
     </nav>
   </header>
 
   <main id="top">
 
-    <!-- ── Hero ── a studio stage. Behind everything, a faint
-         dot-grid plane breathes with a slow sine field; a small
-         glossy 3D apple turns above her open palm; and the dots
-         in the wordmark's A's pulse softly terracotta. ── -->
-    <section class="hero">
-      <canvas id="field" class="field" aria-hidden="true"></canvas>
-      <div class="hero__inner">
-        <div class="hero__copy">
-          <p class="hero__eyebrow t-fx" style="--d:0">Early Childhood Educator · Transitional Kindergarten · Portland, OR</p>
-          <h1 class="hero__mark t-fx" style="--d:1">
-            <img src="images/wordmark.png" alt="Faith Udall" width="1196" height="151">
-            <!-- the letterforms' own dots, brought to life -->
-            <span class="mark-dot" style="--x: 12.91%; --y: 62.5%; --del: 0s" aria-hidden="true"></span>
-            <span class="mark-dot" style="--x: 77.87%; --y: 62.6%; --del: -2.3s" aria-hidden="true"></span>
-          </h1>
-          <span class="hero__rule t-fx" style="--d:2" aria-hidden="true"></span>
-          <p class="hero__lede t-fx" style="--d:3">
-            Helping small people feel big things: curiosity, confidence,
-            and the nerve to try again. Children learn best when they feel
-            known — so I built a room where every one of them is.
-          </p>
-          <div class="hero__actions t-fx" style="--d:4">
-            <a class="btn btn--fill" href="#roots">About Faith</a>
-            <a class="btn btn--ghost" href="#moments">Moments</a>
-          </div>
-          <p class="fcard hero-chip"><span class="pulse-dot" aria-hidden="true"></span>Currently teaching Transitional Kindergarten</p>
+    <!-- ============ Intro / Summary ============ -->
+    <!--
+      ✏️ PLACEHOLDER: this summary is assembled only from the facts you
+      confirmed (title, employer, city, degree). Rewrite it in your voice.
+    -->
+    <section class="intro">
+      <div class="intro-text">
+        <p class="eyebrow">Early Childhood Educator · Portland, OR</p>
+        <h1>Faith Udall</h1>
+        <p class="lede">
+          Lead teacher at Small Wonders School in Portland, Oregon, with classroom
+          experience spanning early childhood instruction, individualized student
+          support, and family partnership. B.S. in Anthropology/Sociology with a
+          concentration in Sociology–Social Welfare.
+        </p>
+        <div class="intro-actions">
+          <a class="btn btn-primary" href="#contact">Get in touch</a>
+          <a class="btn btn-ghost" href="#experience">View experience</a>
         </div>
-        <!-- she welcomes you in; a small glossy apple turns above
-             her open palm, and the status card floats at her other
-             hand -->
-        <figure class="hero__faith t-fx" style="--d:2">
-          <img src="images/faith-welcome.jpg" alt="Faith, welcoming you in" width="760" height="1356">
-          <div class="apple-wrap" aria-hidden="true">
-            <canvas id="apple"></canvas>
-            <span class="apple-shadow"></span>
-          </div>
-        </figure>
+      </div>
+
+      <!--
+        ✏️ Photo spot: replace this whole <div class="intro-art">…</div> with
+          <img class="intro-photo" src="images/faith.jpg" alt="Faith Udall">
+        (.intro-photo styles are already waiting in styles.css)
+      -->
+      <div class="intro-art" aria-hidden="true">
+        <span class="monogram">FU</span>
       </div>
     </section>
 
-    <!-- ── 01 Roots ── the whole bio, in one breath ── -->
-    <section id="roots" class="section">
-      <div class="section__rail">
-        <span class="coord">01 — Roots</span>
-        <span class="coord coord--note">Pacific Northwest</span>
+    <!-- ============ Experience ============ -->
+    <section id="experience" class="section">
+      <div class="section-head">
+        <span class="section-kicker">Experience</span>
+        <h2>Classroom leadership and early childhood instruction</h2>
       </div>
-      <div class="about">
-        <figure class="about__portrait t-fx" style="--d:0">
-          <span class="corner corner--tl" aria-hidden="true"></span>
-          <span class="corner corner--br" aria-hidden="true"></span>
-          <img src="images/portrait.png" alt="Portrait of Faith Udall">
-        </figure>
-        <div class="about__copy">
-          <h2 class="t-fx" style="--d:1">Rooted in the <span class="uword">Gorge<svg class="uline" viewBox="0 0 100 10" preserveAspectRatio="none" aria-hidden="true"><path d="M2 7 C 28 3.5, 70 9, 98 5" pathLength="1"/></svg></span></h2>
-          <div class="prose t-fx" style="--d:2">
-            <p>
-              Growing up in the Columbia River Gorge shaped a lifelong, visceral
-              connection to the outdoors. The Pacific Northwest isn’t a
-              backdrop — it’s where children learn, explore, and ground
-              themselves in the physical world.
-            </p>
-          </div>
-          <ul class="specs t-fx" style="--d:3">
-            <li class="spec"><span class="spec__key">Role</span><span class="spec__val">Kindergarten Lead</span></li>
-            <li class="spec"><span class="spec__key">School</span><span class="spec__val">Small Wonders</span></li>
-            <li class="spec"><span class="spec__key">Tenure</span><span class="spec__val">Third year</span></li>
-            <li class="spec spec--wide"><span class="spec__key">Education</span><span class="spec__val">B.S. in Anthropology/Sociology, Social Welfare</span><span class="spec__sub">Eastern Oregon University</span></li>
+
+      <!-- ✏️ Bullets below are drafts built from the details you gave — edit freely. -->
+      <div class="role-list">
+
+        <article class="role">
+          <header class="role-head">
+            <h3>Lead Teacher</h3>
+            <p class="role-org">Small Wonders School · Portland, OR</p>
+            <p class="role-dates">August 2024 – Present</p>
+          </header>
+          <ul class="role-points">
+            <li>Lead a classroom of 11–19 students, planning and delivering daily instruction and managing classroom routines.</li>
+            <li>Identify students with emerging developmental needs and coordinate support with outside specialists and families.</li>
+            <li>Adapt instruction and classroom practice to support a range of developmental and communication needs.</li>
           </ul>
-          <ul class="chips t-fx" style="--d:4">
-            <li class="chip"><span class="chip__dot" aria-hidden="true"></span>Reggio-inspired</li>
-            <li class="chip"><span class="chip__dot" aria-hidden="true"></span>UFLI literacy</li>
-            <li class="chip"><span class="chip__dot" aria-hidden="true"></span>Nature-based inquiry</li>
+        </article>
+
+        <article class="role">
+          <header class="role-head">
+            <h3>Lead Teacher</h3>
+            <p class="role-org">Small Wonders School · Portland, OR</p>
+            <p class="role-dates">June 2021 – August 2023</p>
+          </header>
+          <ul class="role-points">
+            <li>Supervised a teaching team of two and managed daily classroom operations for 20–23 students.</li>
+            <li>Conducted 40–46 parent conferences per year, communicating individual progress and partnering with families on goals.</li>
+            <li>Planned and delivered daily instruction with individualized support for students with diverse developmental and communication needs.</li>
           </ul>
-        </div>
+        </article>
+
+      </div>
+
+      <div class="role-extra">
+        <h3 class="role-extra-head">Additional experience</h3>
+        <ul class="role-extra-list">
+          <li>
+            <span class="xr-title">Client Service Representative</span>
+            <span class="xr-org">DoveLewis Veterinary Emergency Hospital · Portland, OR</span>
+            <span class="xr-dates">November 2020 – May 2021</span>
+          </li>
+          <li>
+            <span class="xr-title">Home Care Aide</span>
+            <span class="xr-org">Private Households / DSHS · Seattle, WA</span>
+            <span class="xr-dates">April 2015 – August 2017</span>
+          </li>
+        </ul>
       </div>
     </section>
 
-    <!-- ── a full-bleed breath: no text, just the room.
-         wrapped in a section so the reveal observer sees it ── -->
-    <section class="section section--bare">
-      <div class="stage stage--days stage--solo t-fx" style="--d:0">
-      <div class="stage__inner">
-        <figure class="stage__faith">
-          <img src="images/faith-present.jpg" alt="Faith, presenting" width="1000" height="1250">
-          <!-- the pencil turns above her open palm -->
-          <div class="pencil-wrap" aria-hidden="true">
-            <canvas id="pencil"></canvas>
-            <span class="pencil-shadow"></span>
-          </div>
-          </figure>
-        </div>
+    <!-- ============ Education ============ -->
+    <section id="education" class="section section-alt">
+      <div class="section-head">
+        <span class="section-kicker">Education</span>
+        <h2>Academic background</h2>
+      </div>
+      <ul class="edu-list">
+        <li class="edu">
+          <h3>B.S., Anthropology/Sociology</h3>
+          <p class="edu-detail">Concentration in Sociology–Social Welfare</p>
+          <p class="edu-org">Eastern Oregon University</p>
+          <p class="edu-dates">Completed June 2026</p>
+        </li>
+        <li class="edu">
+          <h3>Associate of Arts Oregon Transfer / Associate of Science</h3>
+          <p class="edu-org">Mt. Hood Community College · Gresham, OR</p>
+          <p class="edu-dates">June 2019</p>
+        </li>
+      </ul>
+    </section>
+
+    <!-- ============ Credentials & Training in Progress ============ -->
+    <section id="credentials" class="section">
+      <div class="section-head">
+        <span class="section-kicker">Credentials</span>
+        <h2>Credentials &amp; training in progress</h2>
+      </div>
+      <ul class="cred-list">
+        <li class="cred">
+          <span class="cred-status">In progress</span>
+          <h3>Oregon Registry director qualification</h3>
+          <p>Step 9 pathway, toward launching an outdoor nature-based early childhood program.</p>
+        </li>
+      </ul>
+    </section>
+
+    <!-- ============ Philosophy ============ -->
+    <!--
+      ✏️ PLACEHOLDER — this is NOT your writing. Nothing here is confirmed.
+      Replace the paragraphs below with your own words before sharing the site.
+      (If you confirm UFLI and Reggio-inspired practice, they belong here as
+      influences — not in Credentials.)
+    -->
+    <section id="philosophy" class="section section-alt">
+      <div class="section-head">
+        <span class="section-kicker">Philosophy</span>
+        <h2>How I approach the classroom</h2>
+      </div>
+      <div class="philosophy-copy">
+        <p class="placeholder-note">Placeholder — to be written in Faith's own words.</p>
+        <p>
+          This section is reserved for a short statement of teaching philosophy:
+          how the classroom is structured, what children are trusted to do on
+          their own, and how families are brought into the work.
+        </p>
       </div>
     </section>
 
-    <!-- ── 02 Moments — the picture wall, ready for photos ── -->
-    <section id="moments" class="section">
-      <div class="section__rail">
-        <span class="coord">02 — Moments</span>
-        <span class="coord coord--note">The camera roll</span>
+    <!-- ============ Portfolio / Media ============ -->
+    <section id="portfolio" class="section">
+      <div class="section-head">
+        <span class="section-kicker">Portfolio</span>
+        <h2>Classroom work &amp; media</h2>
+        <p class="section-sub">
+          Current classroom work lives on Instagram while this gallery is being assembled.
+        </p>
       </div>
-      <h2 class="section__title t-fx" style="--d:0">Little moments, <span class="uword">big<svg class="uline" viewBox="0 0 100 10" preserveAspectRatio="none" aria-hidden="true"><path d="M3 6.5 C 30 3, 72 9.5, 97 5.5" pathLength="1"/></svg></span> deal</h2>
-      <!-- ✏️ Swap any tile--soon placeholder for a real photo:
-           <figure class="tile"><img src="images/your-photo.jpg" alt="…"></figure>
-           (keep tile--tall / tile--wide to preserve its footprint) -->
-      <div class="moments">
-        <figure class="tile tile--tall t-fx" style="--d:1">
-          <img src="images/portrait.png" alt="Faith Udall">
-        </figure>
-        <!-- a dragonfly study from one of her students, pinned up
-             on the classroom line -->
-        <figure class="tile tile--tall tile--top t-fx" style="--d:2">
-          <img src="images/dragonfly-study.jpg" alt="A student's dragonfly study: a crayon drawing of a dragonfly over a green field, with facts written underneath — they can fly backwards, they have two sets of wings, dragonflies lay eggs in the water" width="943" height="1400">
-        </figure>
-        <figure class="tile t-fx" style="--d:3">
-          <img src="images/diploma.jpg" alt="Faith with her Bachelor of Science from Eastern Oregon University">
-        </figure>
-        <div class="tile tile--soon t-fx" style="--d:4">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <path d="M12 3l2.5 5.5L20 9.3l-4 4 1 5.7-5-2.8-5 2.8 1-5.7-4-4 5.5-.8L12 3z"/>
-          </svg>
-          <span class="tile__note">Photo soon</span>
-        </div>
-        <div class="tile tile--soon tile--wide t-fx" style="--d:5">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <rect x="3" y="6" width="18" height="14" rx="2"/>
-            <path d="M8.5 6l1.2-2h4.6l1.2 2"/>
-            <circle cx="12" cy="13" r="3.4"/>
-          </svg>
-          <span class="tile__note">Photo soon</span>
-        </div>
+
+      <p class="portfolio-link">
+        <a class="btn btn-ghost" href="https://www.instagram.com/ms.ukinder/" rel="me noopener" target="_blank">
+          @ms.ukinder on Instagram
+        </a>
+      </p>
+
+      <!--
+        ✏️ To fill a slot, replace the whole <li class="slot">…</li> with:
+          <li class="slot slot-filled"><img src="images/your-photo.jpg" alt="…"></li>
+      -->
+      <ul class="media-grid">
+        <li class="slot"><span>Classroom photo</span></li>
+        <li class="slot"><span>Student work</span></li>
+        <li class="slot"><span>Curriculum sample</span></li>
+        <li class="slot"><span>Classroom photo</span></li>
+      </ul>
+    </section>
+
+    <!-- ============ Contact ============ -->
+    <section id="contact" class="section section-alt contact">
+      <div class="contact-inner">
+        <span class="section-kicker">Contact</span>
+        <h2>Get in touch</h2>
+        <p>For families, schools, and fellow educators.</p>
+        <a class="btn btn-primary btn-big" href="mailto:hello@faithudall.com">hello@faithudall.com</a>
       </div>
     </section>
 
   </main>
 
-  <footer class="foot">
-    <p>© <span id="year">2026</span> Faith Udall</p>
-    <span class="foot__ver" aria-hidden="true">v5.3</span>
+  <footer class="site-footer">
+    <p>© <span id="year">2026</span> Faith Udall · Portland, OR</p>
   </footer>
 
-  <script type="importmap">
-    { "imports": { "three": "./vendor/three.module.min.js" } }
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
   </script>
-  <script src="main.js?v=5.4" defer></script>
-  <script type="module" src="apple3d.js?v=5.4"></script>
-    <script type="module" src="pencil3d.js?v=5.4"></script>
 </body>
 </html>
