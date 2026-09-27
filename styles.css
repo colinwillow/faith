@@ -891,7 +891,7 @@ h2 {
 
 .stage--hello {
   --stage-bg: #caa176;
-  padding: clamp(2rem, 4vw, 3rem) var(--gutter) clamp(3rem, 5vw, 4.5rem);
+  padding: clamp(3rem, 5vw, 4.5rem) var(--gutter);
 }
 
 .hello-scene {
