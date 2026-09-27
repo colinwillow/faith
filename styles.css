@@ -464,6 +464,9 @@ h2 {
 .btn--fill { background: var(--ink); color: var(--on-ink); }
 .btn--fill:hover { background: var(--accent); border-color: var(--accent); }
 
+.btn--white { background: #fff; color: var(--ink); border-color: var(--ink); }
+.btn--white:hover { background: var(--ink); color: var(--on-ink); }
+
 .btn--ghost { color: var(--ink); border-color: var(--line); background: transparent; }
 .btn--ghost:hover { border-color: var(--ink); }
 
