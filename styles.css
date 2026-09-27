@@ -896,11 +896,11 @@ h2 {
 
 .hello-scene {
   position: relative;
-  max-width: 560px;
+  max-width: 430px;
   margin: 0 auto;
   /* room for the platform card hanging below the photo — enough
      that the card clears her legs and she reads full-length */
-  padding-bottom: 215px;
+  padding-bottom: 180px;
 }
 
 .hello-scene__faith {
@@ -916,7 +916,7 @@ h2 {
   position: absolute;
   z-index: 1; /* above the photo, below the card */
   top: 0; left: 0; right: 0;
-  bottom: 215px;
+  bottom: 180px;
   background:
     linear-gradient(90deg, var(--stage-bg) 0%, transparent 16%),
     linear-gradient(270deg, var(--stage-bg) 0%, transparent 16%);
@@ -931,7 +931,7 @@ h2 {
   left: 50%;
   bottom: 0;
   transform: translateX(-50%);
-  width: min(480px, calc(100vw - 2 * var(--gutter)));
+  width: min(400px, calc(100vw - 2 * var(--gutter)));
   text-align: center;
   padding: 1.7rem 1.8rem 1.6rem;
   animation: levitate-x 10.7s ease-in-out infinite;
