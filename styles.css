@@ -795,6 +795,25 @@ h2 {
   transform: translateY(var(--p, 0px)) scale(1.07);
 }
 .tile:hover img { filter: grayscale(0); }
+
+/* the collage runs as its own band under the grid, at its true
+   2:1 so nothing is cropped out of it */
+.moments-band {
+  margin-top: 1rem;
+  border: 1px solid var(--line);
+  overflow: hidden;
+}
+.moments-band img {
+  width: 100%;
+  /* beats the img height attribute, which otherwise wins over aspect-ratio */
+  height: auto;
+  aspect-ratio: 2 / 1;
+  object-fit: cover;
+  display: block;
+  filter: grayscale(0.35) contrast(1.02);
+  transition: filter 0.5s ease;
+}
+.moments-band:hover img { filter: grayscale(0); }
 /* a page with a heading at the top — hold the crop high so the
    title stays in frame */
 .tile--top img { object-position: 50% 0; }
